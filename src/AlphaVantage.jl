@@ -1,5 +1,10 @@
 module AlphaVantage
 
-# package code goes here
+const alphavantage_api = "https://www.alphavantage.co/"
+
+using Requests
+using HttpCommon
+
+include("stocks.jl")
 
 end # module
