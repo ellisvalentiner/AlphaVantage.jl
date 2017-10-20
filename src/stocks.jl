@@ -39,49 +39,49 @@ function _validate_args(;kwargs...)
     end
 end
 
-function intraday(symbol::String="MSFT", interval::String="1min", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function intraday(symbol::String="MSFT"; interval::String="1min", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(interval=interval, outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_INTRADAY&symbol=$(symbol)&interval=$(interval)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function daily(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function daily(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function daily_adjusted(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function daily_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function weekly(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function weekly(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function weekly_adjusted(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function weekly_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function monthly(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function monthly(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
 
-function monthly_adjusted(symbol::String="MSFT", outputsize::String="compact", datatype::String="csv", apikey::String="demo")
+function monthly_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
     uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
