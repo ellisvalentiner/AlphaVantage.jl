@@ -23,7 +23,7 @@ function _parse_data(data, datatype::String)
     end
 end
 
-include("stock_time_series.jl.jl")
+include("stock_time_series.jl")
 export intraday, daily, daily_adjusted, weekly, weekly_adjusted, monthly, monthly_adjusted
 
 end # module
