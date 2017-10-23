@@ -1,17 +1,35 @@
+## Documentation: http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os:
-- linux
-- osx
+  - linux
+  - osx
 julia:
-- 0.6
-- nightly
+  - 0.6
+  - nightly
 notifications:
   email: false
 git:
   depth: 99999999
+
+## uncomment the following lines to allow failures on nightly julia
+## (tests will run but not make your overall status red)
+#matrix:
+#  allow_failures:
+#  - julia: nightly
+
+## uncomment and modify the following lines to manually install system packages
+#addons:
+#  apt: # apt-get for linux
+#    packages:
+#    - gfortran
+#before_script: # homebrew for mac
+#  - if [ $TRAVIS_OS_NAME = osx ]; then brew install gcc; fi
+
+## uncomment the following lines to override the default test script
+#script:
+#  - julia -e 'Pkg.clone(pwd()); Pkg.build("AlphaVantage"); Pkg.test("AlphaVantage"; coverage=true)'
 after_success:
-- julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
-- julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
-env:
-  matrix:
-    secure: iP1R+kU1IVioHrewc5qiLscGJ2+bTFFC/kM7IB6I4G13YBxBfXlaBf92lbRWKy4sb7stn9i4FjDWa4GBptNnsBddngWLjU7Eqb56MOdgYZN8x/xJlyCNDsl6fx8wMjgCyVNivCdV+UZ9bagrzwmlGFLQNjcNiRya5A850oMuFWvAf4BbWPb/gVS/JmKbkNQR42jjAs2hj8I2BnHQkEAJrwxXv2RUE8xXWAsajsnwnEUswtnlyIroWuExhqrnnb7twZj8kVVnGr3XcZdki6YByqbucd10oOw0s6sZlqkTgpBF9wtqgkhSk1Qj7rZ7MXG9Uwro8Ktd55CC1JzWEuOXyPmVWVsGiiIB2Dxc2kCqKknVmS42JoKwz3gtD6H0PhTYaH5vUoMnjCVHJFITjKdyDi6+Li/MPn6pR8gLfzrnzNOu4h7JfWpAwvMb01ecA35pZuBIHwzsaHbSiHVKprkxhH8Jkk3PLRWYbiGrrxP+7gl7IE18PR1TM2th5f+mVIaUm8bhgYTDNl3PBV3hd/ww7jUmLWCvpXP9K/XoyyNHvpcBm3EXP8BnzNPkR+39dZrjOSJADlNZXrPvbzocQXkBamuYngeDLPhSiVx4LPuFythv2zecsSBDeUbY4lTeytKL0oi3YwO2UBi/fp0Nrss2lyB3tm9XfOy493xKbW/N2nk=
+  # push coverage results to Coveralls
+  - julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  # push coverage results to Codecov
+  - julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

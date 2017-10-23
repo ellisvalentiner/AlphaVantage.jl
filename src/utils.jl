@@ -9,7 +9,7 @@ function _get(uri::String)
         desc = STATUS_CODES[status]
         error("Expected status code 200 but received $status: $desc")
     end
-    return resp
+    return resp.data
 end
 
 """
@@ -17,7 +17,7 @@ Internal function that parses the response
 """
 function _parse_data(data, datatype::String)
     if datatype == "csv"
-        return readcsv(data.data)
+        return readcsv(data)
     elseif datatype == "json"
         return Requests.json(data)
     end
