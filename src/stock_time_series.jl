@@ -28,7 +28,7 @@ The most recent data point is the cumulative prices and volume information of th
 """
 function daily_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
@@ -40,7 +40,7 @@ The latest data point is the cumulative prices and volume information for the we
 """
 function weekly(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_WEEKLY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
@@ -52,7 +52,7 @@ The latest data point is the cumulative prices and volume information for the we
 """
 function weekly_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_WEEKLY_ADJUSTED&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
@@ -64,7 +64,7 @@ The latest data point is the cumulative prices and volume information for the mo
 """
 function monthly(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_MONTHLY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
@@ -76,7 +76,7 @@ The latest data point is the cumulative prices and volume information for the mo
 """
 function monthly_adjusted(symbol::String="MSFT"; outputsize::String="compact", datatype::String="csv", apikey::String="demo")
     _validate_args(outputsize=outputsize, datatype=datatype)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_DAILY&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=$(symbol)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
     data = _get(uri)
     return _parse_data(data, datatype)
 end
