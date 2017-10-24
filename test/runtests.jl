@@ -88,7 +88,7 @@ end
         @test size(data) === (214, 6)
     end
     @testset "Data format: JSON" begin
-        data = weekly(datatype="json", apikey=ENV["ALPHA_VANTAGE_API_KEY"])
+        data = monthly(datatype="json", apikey=ENV["ALPHA_VANTAGE_API_KEY"])
         @test typeof(data) === Dict{String,Any}
         @test length(data) === 2
         @test haskey(data, "Monthly Time Series")
