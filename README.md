@@ -6,6 +6,9 @@
 
 [![codecov.io](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl/coverage.svg?branch=master)](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
 
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/stable)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/latest)
+
 A Julia wrapper for the Alpha Vantage API.
 
 ## Overview

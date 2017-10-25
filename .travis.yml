@@ -13,6 +13,8 @@ notifications:
 git:
   depth: 99999999
 after_success:
+- julia -e 'Pkg.add("Documenter")'
+- julia -e 'cd(Pkg.dir("AlphaVantage")); include(joinpath("docs", "make.jl"))'
 - julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
 - julia -e 'cd(Pkg.dir("AlphaVantage")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
 env:
