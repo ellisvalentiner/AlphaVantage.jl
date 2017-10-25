@@ -47,4 +47,4 @@ data[:timestamp] = Dates.Date.(data[:timestamp]);
 savefig("sp500.png")
 ```
 
-![](static/sp500.png)
+![](docs/src/static/sp500.png)
