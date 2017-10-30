@@ -1,15 +1,10 @@
-# AlphaVantage
+```@meta
+CurrentModule = AlphaVantage
+```
 
-[![Build Status](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl.svg?branch=master)](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl)
+# AlphaVantage.jl Documentation
 
-[![Coverage Status](https://coveralls.io/repos/ellisvalentiner/AlphaVantage.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
-
-[![codecov.io](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl/coverage.svg?branch=master)](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
-
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/stable)
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/latest)
-
-A Julia wrapper for the Alpha Vantage API.
+*A Julia wrapper for the Alpha Vantage API.*
 
 ## Overview
 
@@ -26,6 +21,18 @@ Pkg.clone("git://GitHub.com/ellisvalentiner/AlphaVantage.jl")
 ```
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
+
+## Functions
+
+```@docs
+intraday()
+daily()
+daily_adjusted()
+weekly()
+weekly_adjusted()
+monthly()
+monthly_adjusted()
+```
 
 ## Usage
 
@@ -47,4 +54,4 @@ data[:timestamp] = Dates.Date.(data[:timestamp]);
 savefig("sp500.png")
 ```
 
-![](docs/src/static/sp500.png)
+![](static/sp500.png)
