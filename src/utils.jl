@@ -2,7 +2,7 @@
 """
 Internal function that wraps Requests.get
 """
-function _get(uri::String)
+function _get_request(uri::String)
     resp = Requests.get(uri)
     status = statuscode(resp)
     if status != 200
@@ -26,23 +26,67 @@ end
 """
 Internal function that asserts the arguments are valid for the API.
 """
-function _validate_args(;kwargs...)
-    args = Dict(kwargs)
-    if !all(map(x->x in [:interval, :outputsize, :datatype], keys(args)))
-        throw(ArgumentError("Invalid argument"))
-    end
-
-    if :interval in keys(args)
-        if !in(args[:interval], ["1min", "5min", "15min", "30min", "60min"])
-            throw(ArgumentError("interval=$interval is not valid"))
+function _validate_args(func::String, args)
+    if func == "TIME_SERIES_INTRADAY"
+        if !issubset(keys(args), [:interval, :outputsize, :datatype])
+            throw(ArgumentError("Invalid argument"))
+        end
+        if :interval in keys(args)
+            if !in(args[:interval], ["1min", "5min", "15min", "30min", "60min"])
+                throw(ArgumentError("interval=$interval is not valid"))
+            end
+        end
+        if !issubset(args[:outputsize], [:outputsize, :datatype])
+            throw(ArgumentError("outputsize=$outputsize is not valid"))
+        end
+        if !issubset(args[:datatype], ["csv", "json"])
+            throw(ArgumentError("datatype=$datatype is not valid"))
         end
     end
-
-    if !in(args[:outputsize], ["compact", "full"])
-        throw(ArgumentError("outputsize=$outputsize is not valid"))
+    if ismatch(r"TIME_SERIES_(DAILY|WEEKLY|MONTHLY)($|_ADJUSTED$)", func)
+        if !issubset(keys(args), [:outputsize, :datatype])
+            throw(ArgumentError("Invalid argument"))
+        end
+        # outputsize = get(args, :outputsize, nothing)
+        # if !issubset(outputsize, ["compact", "full"])
+        #     throw(ArgumentError("outputsize=$outputsize is not valid"))
+        # end
+        # datatype = get(args, :datatype, nothing)
+        # if !issubset(datatype, ["csv", "json"])
+        #     throw(ArgumentError("datatype=$datatype is not valid"))
+        # end
     end
-
-    if !in(args[:datatype], ["csv", "json"])
-        throw(ArgumentError("datatype=$datatype is not valid"))
+    if func == "FOREIGN_EXCHANGE_CURRENCY"
+        if !issubset(args, [:from_currency, :to_currency])
+            throw(ArgumentError("Invalid argument"))
+        end
     end
+    if ismatch(r"DIGITAL_CURRENCY_(INTRADAY|DAILY|WEEKLY|MONTHLY)$", func)
+        if !issubset(args, [:market])
+            throw(ArgumentError("Invalid argument"))
+        end
+    end
+end
+
+"""
+Join together key word arguments to query string
+"""
+function _join_parameters(x...)
+    join(join.(collect(x), "="), "&")
+end
+
+"""
+
+"""
+function _prepare_request(func::String, symbol::String; kwargs...)
+    uri = "$(alphavantage_api)query?function=$func"
+    args = Dict(kwargs)
+    if length(args) > 0
+        _validate_args(func, args) # As an internal function, arguments should be validated prior
+        uri *= "&" * join(join.(collect(kwargs), "="), "&")
+    end
+    uri *= "&" * join("apikey", ENV["ALPHA_VANTAGE_API_KEY"], "=")
+    uri
+    # data = _get_request(uri)
+    # return _parse_data(data, datatype)
 end
