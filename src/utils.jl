@@ -15,7 +15,7 @@ end
 """
 Internal function that parses the response
 """
-function _parse_data(data, datatype::String)
+function _parse_response(data, datatype::String)
     if datatype == "csv"
         return readcsv(data.data)
     elseif datatype == "json"
@@ -78,15 +78,14 @@ end
 """
 
 """
-function _prepare_request(func::String, symbol::String; kwargs...)
+function _request(func::String; kwargs...)
     uri = "$(alphavantage_api)query?function=$func"
     args = Dict(kwargs)
     if length(args) > 0
-        _validate_args(func, args) # As an internal function, arguments should be validated prior
+        _validate_args(args)
         uri *= "&" * join(join.(collect(kwargs), "="), "&")
     end
-    uri *= "&" * join("apikey", ENV["ALPHA_VANTAGE_API_KEY"], "=")
-    uri
-    # data = _get_request(uri)
-    # return _parse_data(data, datatype)
+    uri *= "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    data = _get_request(uri)
+    return data
 end

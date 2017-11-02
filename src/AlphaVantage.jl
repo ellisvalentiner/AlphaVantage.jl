@@ -9,6 +9,6 @@ using HttpCommon
 
 include("utils.jl")
 include("stock_time_series.jl")
-export intraday, daily, daily_adjusted, weekly, weekly_adjusted, monthly, monthly_adjusted
+export time_series_intraday, time_series_daily, time_series_daily_adjusted
 
 end # module
