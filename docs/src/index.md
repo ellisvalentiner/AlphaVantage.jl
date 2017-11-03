@@ -24,14 +24,24 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 
 ## Functions
 
+### Stock Time Series
+
 ```@docs
-intraday()
-daily()
-daily_adjusted()
-weekly()
-weekly_adjusted()
-monthly()
-monthly_adjusted()
+time_series_intraday()
+time_series_daily()
+time_series_daily_adjusted()
+time_series_weekly()
+time_series_weekly_adjusted()
+time_series_monthly()
+time_series_monthly_adjusted()
+```
+
+### Digital Currencies
+
+```@docs
+digital_currencies_daily()
+digital_currencies_weekly()
+digital_currencies_monthly()
 ```
 
 ## Usage
@@ -42,7 +52,7 @@ using DataFrames
 using Plots
 gr(size=(800,470))
 # Get daily S&P 500 data
-gspc = daily("^GSPC", apikey=ENV["ALPHA_VANTAGE_API_KEY"]);
+gspc = time_series_daily("^GSPC", apikey=ENV["ALPHA_VANTAGE_API_KEY"]);
 # Convert to a DataFrame
 data = DataFrame(gspc[2:end, :]);
 # Add column names
