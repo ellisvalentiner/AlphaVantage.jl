@@ -4,11 +4,14 @@ module AlphaVantage
 
 const alphavantage_api = "https://www.alphavantage.co/"
 
-using Requests
+using ArgCheck
 using HttpCommon
+using Requests
 
 include("utils.jl")
 include("stock_time_series.jl")
-export time_series_intraday, time_series_daily, time_series_daily_adjusted
+include("digital_currency.jl")
+include("foreign_exchange_currency.jl")
+include("stock_technical_indicators.jl")
 
 end # module
