@@ -1,7 +1,14 @@
-
-function intraday(symbol::String="BTC"; market::String="USD", apikey::String="demo")
-    _validate_args(market=market)
-    uri = "$(alphavantage_api)query?function=TIME_SERIES_INTRADAY&symbol=$(symbol)&interval=$(interval)&outputsize=$(outputsize)&datatype=$(datatype)&apikey=$(apikey)"
-    data = _get(uri)
-    return _parse_data(data, datatype)
+for func in (:intraday, :daily, :weekly, :monthly)
+    x = "digital_currency_$(func)"
+    fname = Symbol(x)
+    @eval begin
+        function ($fname)(symbol::String; market::String="USD", outputsize::String="compact", datatype::String="json")
+            @argcheck in(outputsize, ["compact", "full"])
+            @argcheck in(datatype, ["json", "csv"])
+            uri = "$(alphavantage_api)query?function="* uppercase($x) * "&symbol=$symbol&market=$market&outputsize=$outputsize&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+            data = _get_request(uri)
+            return _parse_response(data, datatype)
+        end
+        export $fname
+    end
 end

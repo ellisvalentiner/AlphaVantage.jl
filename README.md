@@ -35,7 +35,7 @@ using DataFrames
 using Plots
 gr(size=(800,470))
 # Get daily S&P 500 data
-gspc = daily("^GSPC", apikey=ENV["ALPHA_VANTAGE_API_KEY"]);
+gspc = time_series_daily("^GSPC");
 # Convert to a DataFrame
 data = DataFrame(gspc[2:end, :]);
 # Add column names
