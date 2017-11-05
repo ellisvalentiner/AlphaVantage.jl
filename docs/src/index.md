@@ -1,6 +1,3 @@
-```@meta
-CurrentModule = AlphaVantage
-```
 
 # AlphaVantage.jl Documentation
 
@@ -14,7 +11,7 @@ The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/supp
 
 ## Installation
 
-```julia
+```
 # AlphaVantage.jl is not currently registered as an official package
 # Please install the development version from GitHub:
 Pkg.clone("git://GitHub.com/ellisvalentiner/AlphaVantage.jl")
@@ -26,7 +23,7 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 
 ### Stock Time Series
 
-```@docs
+```
 time_series_intraday()
 time_series_daily()
 time_series_daily_adjusted()
@@ -38,7 +35,7 @@ time_series_monthly_adjusted()
 
 ### Digital Currencies
 
-```@docs
+```
 digital_currencies_daily()
 digital_currencies_weekly()
 digital_currencies_monthly()
@@ -46,7 +43,7 @@ digital_currencies_monthly()
 
 ## Usage
 
-```julia
+```
 using AlphaVantage
 using DataFrames
 using Plots
