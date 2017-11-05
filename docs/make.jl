@@ -1,17 +1,9 @@
 using Documenter, AlphaVantage
 
-makedocs(
-    modules = [AlphaVantage],
-    clean = false,
-    format = [:html],
-    sitename = "AlphaVantage",
-    pages = Any[
-        "Manual" => "index.md"
-    ]
-)
+makedocs()
 
 deploydocs(
-    deps   = Deps.pip("mkdocs", "python-markdown-math"),
+    deps   = Deps.pip("mkdocs"),
     repo   = "github.com/ellisvalentiner/AlphaVantage.jl.git",
     julia  = "0.6"
 )

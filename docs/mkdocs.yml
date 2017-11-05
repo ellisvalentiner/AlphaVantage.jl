@@ -3,7 +3,7 @@ repo_url:         https://github.com/ellisvalentiner/AlphaVantage.jl
 site_description: A Julia wrapper for the Alpha Vantage API.
 site_author:      Ellis Valentiner
 
-theme: material
+theme: readthedocs
 
 extra_css:
   - assets/Documenter.css
