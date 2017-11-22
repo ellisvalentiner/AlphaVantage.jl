@@ -32,10 +32,10 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 ```julia
 using AlphaVantage
 using DataFrames
-using Plots
+using StatPlots
 gr(size=(800,470))
 # Get daily S&P 500 data
-gspc = time_series_daily("^GSPC");
+gspc = time_series_daily("^GSPC", datatype="csv");
 # Convert to a DataFrame
 data = DataFrame(gspc[2:end, :]);
 # Add column names
@@ -43,7 +43,8 @@ names!(data, convert.(Symbol, gspc[1,:]));
 # Convert timestamp column to Date type
 data[:timestamp] = Dates.Date.(data[:timestamp]);
 # Plot the timeseries
-@df data plot(:timestamp, [:low :high :close], label=["Low" "High" "Close"], colour=[:red :green :blue], w=2)
+@df data plot(:timestamp, [:low :high :close], label=["Low" "High" "Close"],
+              colour=["#A2A6A5", "#F68E5B", "#B47E6E"], w=2)
 savefig("sp500.png")
 ```
 
