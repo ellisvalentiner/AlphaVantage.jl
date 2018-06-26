@@ -11,6 +11,7 @@ using Base.Test
                 @test length(data) === 2
             end
         end
+        sleep(0.5)
     end
 end
 
@@ -24,6 +25,7 @@ end
                 @test length(data) === 2
             end
         end
+        sleep(0.5)
     end
 end
 

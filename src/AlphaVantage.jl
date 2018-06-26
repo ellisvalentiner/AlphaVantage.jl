@@ -1,4 +1,4 @@
-VERSION >= v"0.6.0"
+VERSION >= v"0.7.0-alpha"
 
 module AlphaVantage
 
@@ -6,7 +6,8 @@ const alphavantage_api = "https://www.alphavantage.co/"
 
 using ArgCheck
 using HttpCommon
-using Requests
+using HTTP
+using JSON
 
 include("utils.jl")
 include("stock_time_series.jl")
