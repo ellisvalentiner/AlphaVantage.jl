@@ -5,6 +5,7 @@ module AlphaVantage
 const alphavantage_api = "https://www.alphavantage.co/"
 
 using ArgCheck
+using DelimitedFiles
 using HTTP
 using HttpCommon
 using JSON

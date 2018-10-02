@@ -1,13 +1,16 @@
 name = "AlphaVantage"
 uuid = "6348297c-a006-11e8-3a05-9bbf8830fd7b"
+license = "MIT"
 authors = ["Ellis Valentiner <ellisvalentiner@gmail.com>"]
-version = "0.3.0"
+version = "0.4.0"
 
 [deps]
 ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
+DelimitedFiles = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 HttpCommon = "77172c1b-203f-54ac-aa54-3f1198fe9f90"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+TimeSeries = "9e3dc215-6440-5c97-bce1-76c03772f85e"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
