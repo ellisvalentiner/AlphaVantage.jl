@@ -16,7 +16,7 @@ Internal function that parses the response
 """
 function _parse_response(data, datatype::String)
     if datatype == "csv"
-        return readcsv(data.data)
+        return readdlm(data.body, ',', header=true)
     elseif datatype == "json"
         return JSON.Parser.parse(String(data.body))
     end
