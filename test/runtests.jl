@@ -11,7 +11,7 @@ using Test
                 @test length(data) === 2
             end
         end
-        sleep(0.5)
+        sleep(1)
     end
 end
 
@@ -25,7 +25,7 @@ end
                 @test length(data) === 2
             end
         end
-        sleep(0.5)
+        sleep(1)
     end
 end
 
