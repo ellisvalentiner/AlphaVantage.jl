@@ -22,7 +22,7 @@ The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/supp
 ```julia
 # AlphaVantage.jl is not currently registered as an official package
 # Please install the development version from GitHub:
-Pkg.clone("git://GitHub.com/ellisvalentiner/AlphaVantage.jl")
+pkg> add git://github.com:ellisvalentiner/AlphaVantage.jl#master
 ```
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
@@ -32,19 +32,27 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 ```julia
 using AlphaVantage
 using DataFrames
-using StatPlots
+using Dates
+using Plots
 gr(size=(800,470))
 # Get daily S&P 500 data
 gspc = time_series_daily("^GSPC", datatype="csv");
 # Convert to a DataFrame
-data = DataFrame(gspc[2:end, :]);
+data = DataFrame(gspc[1]);
 # Add column names
-names!(data, convert.(Symbol, gspc[1,:]));
+names!(data, Symbol.(gspc[2])[1,:]);
 # Convert timestamp column to Date type
 data[:timestamp] = Dates.Date.(data[:timestamp]);
 # Plot the timeseries
-@df data plot(:timestamp, [:low :high :close], label=["Low" "High" "Close"],
-              colour=["#A2A6A5", "#F68E5B", "#B47E6E"], w=2)
+plot(
+  data[:timestamp],
+  data[:close],
+  title="S&P 500",
+  lw=3,
+  labels="",
+  color=:black,
+  ylims=(minimum(data[:close])*0.95, maximum(data[:close])*1.025)
+)
 savefig("sp500.png")
 ```
 
