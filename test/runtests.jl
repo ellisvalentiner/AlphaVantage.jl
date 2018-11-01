@@ -11,7 +11,7 @@ using Test
                 @test length(data) === 2
             end
         end
-        sleep(12)
+        sleep(15)
     end
 end
 
@@ -25,7 +25,7 @@ end
                 @test length(data) === 2
             end
         end
-        sleep(12)
+        sleep(15)
     end
     for f in (:digital_currency_intraday, :digital_currency_daily)
         @eval begin
@@ -36,7 +36,7 @@ end
                 @test length(data) === 2
             end
         end
-        sleep(12)
+        sleep(15)
     end
 end
 
