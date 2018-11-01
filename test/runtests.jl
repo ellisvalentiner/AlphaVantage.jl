@@ -11,7 +11,7 @@ using Test
                 @test length(data) === 2
             end
         end
-        sleep(1)
+        sleep(12)
     end
 end
 
@@ -20,12 +20,23 @@ end
         @eval begin
             testname = string($f)
             @testset "$testname" begin
-                data = $f("BTC")
+                data = $f("BTC", datatype="json")
                 @test typeof(data) === Dict{String,Any}
                 @test length(data) === 2
             end
         end
-        sleep(1)
+        sleep(12)
+    end
+    for f in (:digital_currency_intraday, :digital_currency_daily)
+        @eval begin
+            testname = string($f)
+            @testset "$testname" begin
+                data = $f("BTC", datatype="csv")
+                @test typeof(data) === Tuple{Array{Any,2},Array{AbstractString,2}}
+                @test length(data) === 2
+            end
+        end
+        sleep(12)
     end
 end
 
