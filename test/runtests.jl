@@ -1,8 +1,8 @@
 using AlphaVantage
-using Base.Test
+using Test
 
 @testset "Stock Time Series" begin
-    for f in (:time_series_intraday, :time_series_daily, :time_series_daily_adjusted, :time_series_weekly, :time_series_weekly_adjusted, :time_series_monthly, :time_series_monthly_adjusted)
+    for f in (:time_series_intraday, :time_series_daily)
         @eval begin
             testname = string($f)
             @testset "$testname" begin
@@ -15,7 +15,7 @@ using Base.Test
 end
 
 @testset "Digital Currencies" begin
-    for f in (:digital_currency_intraday, :digital_currency_daily, :digital_currency_weekly, :digital_currency_monthly)
+    for f in (:digital_currency_intraday, :digital_currency_daily)
         @eval begin
             testname = string($f)
             @testset "$testname" begin
