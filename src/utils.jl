@@ -21,3 +21,15 @@ function _parse_response(data, datatype::String)
         return JSON.Parser.parse(String(data.body))
     end
 end
+
+"""
+set API key if the environment variable doesn't set or the "overwrite" flag set true
+"""
+function set_apikey(apikey::String; overwrite=true)
+    envkey = "ALPHA_VANTAGE_API_KEY"
+    if !haskey(ENV, envkey) | overwrite
+        ENV["ALPHA_VANTAGE_API_KEY"] = apikey
+    end
+end
+
+export set_apikey
