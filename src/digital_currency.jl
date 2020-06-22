@@ -1,4 +1,4 @@
-for func in (:intraday, :daily, :weekly, :monthly)
+for func in (:daily, :weekly, :monthly)
     x = "digital_currency_$(func)"
     fname = Symbol(x)
     @eval begin

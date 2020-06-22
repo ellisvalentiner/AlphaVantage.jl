@@ -15,7 +15,7 @@ using Test
 end
 
 @testset "Digital Currencies" begin
-    for f in (:digital_currency_intraday, :digital_currency_daily)
+    for f in (:digital_currency_daily, :digital_currency_weekly, :digital_currency_monthly)
         @eval begin
             testname = string($f)
             @testset "$testname" begin
