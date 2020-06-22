@@ -1,6 +1,8 @@
 using AlphaVantage
 using Test
 
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", 1))
+
 @testset "Stock Time Series" begin
     for f in (:time_series_intraday, :time_series_daily)
         @eval begin
@@ -11,7 +13,7 @@ using Test
                 @test length(data) === 2
             end
         end
-        sleep(15 + 2*rand()) #as to not overload the API
+        sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 end
 
@@ -25,13 +27,14 @@ end
                 @test length(data) === 2
             end
         end
-    sleep(15 + 2*rand()) #as to not overload the API
+        sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
     @testset "crypto rating" begin
         data = crypto_rating("BTC")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 1
+        sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
 end
@@ -40,4 +43,5 @@ end
     data = currency_exchange_rate("BTC", "USD")
     @test typeof(data) === Dict{String,Any}
     @test length(data) === 1
+    sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
 end
