@@ -11,6 +11,7 @@ using Test
                 @test length(data) === 2
             end
         end
+        sleep(15 + 2*rand()) #as to not overload the API
     end
 end
 
@@ -24,6 +25,7 @@ end
                 @test length(data) === 2
             end
         end
+    sleep(15 + 2*rand()) #as to not overload the API
     end
 
     @testset "crypto rating" begin

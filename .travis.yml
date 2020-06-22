@@ -16,6 +16,6 @@ git:
 #- julia -e 'using Pkg; Pkg.add("Documenter"); Pkg.add("Coverage");'
 #- julia -e 'import AlphaVantage; joinpath(dirname(pathof(AlphaVantage)), ".."); include(joinpath("docs", "make.jl"))'
 #- julia -e 'import AlphaVantage; joinpath(dirname(pathof(AlphaVantage)), ".."); using Coverage; Coveralls.submit(Coveralls.process_folder()); Codecov.submit(Codecov.process_folder())'
-env:
-  matrix:
-    secure: iP1R+kU1IVioHrewc5qiLscGJ2+bTFFC/kM7IB6I4G13YBxBfXlaBf92lbRWKy4sb7stn9i4FjDWa4GBptNnsBddngWLjU7Eqb56MOdgYZN8x/xJlyCNDsl6fx8wMjgCyVNivCdV+UZ9bagrzwmlGFLQNjcNiRya5A850oMuFWvAf4BbWPb/gVS/JmKbkNQR42jjAs2hj8I2BnHQkEAJrwxXv2RUE8xXWAsajsnwnEUswtnlyIroWuExhqrnnb7twZj8kVVnGr3XcZdki6YByqbucd10oOw0s6sZlqkTgpBF9wtqgkhSk1Qj7rZ7MXG9Uwro8Ktd55CC1JzWEuOXyPmVWVsGiiIB2Dxc2kCqKknVmS42JoKwz3gtD6H0PhTYaH5vUoMnjCVHJFITjKdyDi6+Li/MPn6pR8gLfzrnzNOu4h7JfWpAwvMb01ecA35pZuBIHwzsaHbSiHVKprkxhH8Jkk3PLRWYbiGrrxP+7gl7IE18PR1TM2th5f+mVIaUm8bhgYTDNl3PBV3hd/ww7jUmLWCvpXP9K/XoyyNHvpcBm3EXP8BnzNPkR+39dZrjOSJADlNZXrPvbzocQXkBamuYngeDLPhSiVx4LPuFythv2zecsSBDeUbY4lTeytKL0oi3YwO2UBi/fp0Nrss2lyB3tm9XfOy493xKbW/N2nk=
+#env:
+#  matrix:
+#    secure: iP1R+kU1IVioHrewc5qiLscGJ2+bTFFC/kM7IB6I4G13YBxBfXlaBf92lbRWKy4sb7stn9i4FjDWa4GBptNnsBddngWLjU7Eqb56MOdgYZN8x/xJlyCNDsl6fx8wMjgCyVNivCdV+UZ9bagrzwmlGFLQNjcNiRya5A850oMuFWvAf4BbWPb/gVS/JmKbkNQR42jjAs2hj8I2BnHQkEAJrwxXv2RUE8xXWAsajsnwnEUswtnlyIroWuExhqrnnb7twZj8kVVnGr3XcZdki6YByqbucd10oOw0s6sZlqkTgpBF9wtqgkhSk1Qj7rZ7MXG9Uwro8Ktd55CC1JzWEuOXyPmVWVsGiiIB2Dxc2kCqKknVmS42JoKwz3gtD6H0PhTYaH5vUoMnjCVHJFITjKdyDi6+Li/MPn6pR8gLfzrnzNOu4h7JfWpAwvMb01ecA35pZuBIHwzsaHbSiHVKprkxhH8Jkk3PLRWYbiGrrxP+7gl7IE18PR1TM2th5f+mVIaUm8bhgYTDNl3PBV3hd/ww7jUmLWCvpXP9K/XoyyNHvpcBm3EXP8BnzNPkR+39dZrjOSJADlNZXrPvbzocQXkBamuYngeDLPhSiVx4LPuFythv2zecsSBDeUbY4lTeytKL0oi3YwO2UBi/fp0Nrss2lyB3tm9XfOy493xKbW/N2nk=
