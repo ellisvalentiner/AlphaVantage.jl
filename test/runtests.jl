@@ -25,6 +25,13 @@ end
             end
         end
     end
+
+    @testset "crypto rating" begin
+        data = crypto_rating("BTC")
+        @test typeof(data) === Dict{String, Any}
+        @test length(data) === 1
+    end
+
 end
 
 @testset "Foreign Exchange Currency" begin

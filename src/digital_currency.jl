@@ -12,3 +12,12 @@ for func in (:daily, :weekly, :monthly)
         export $fname
     end
 end
+
+function crypto_rating(symbol::String, outputsize::String="compact", datatype::String="json")
+    @argcheck in(outputsize, ["compact", "full"])
+    @argcheck in(datatype, ["json", "csv"])
+    uri = "$(alphavantage_api)query?function=CRYPTO_RATING&symbol=$symbol&outputsize=$outputsize&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    data = _get_request(uri)
+    return _parse_response(data, datatype)
+end
+export crypto_rating
