@@ -10,6 +10,13 @@ using HTTP
 using HttpCommon
 using JSON
 
+function __init__()
+    if !haskey(ENV, "ALPHA_VANTAGE_API_KEY")
+        @warn "No API key found"
+    end
+end
+
+
 include("utils.jl")
 include("stock_time_series.jl")
 include("digital_currency.jl")
