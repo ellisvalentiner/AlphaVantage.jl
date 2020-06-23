@@ -12,6 +12,9 @@ HttpCommon = "77172c1b-203f-54ac-aa54-3f1198fe9f90"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 TimeSeries = "9e3dc215-6440-5c97-bce1-76c03772f85e"
 
+[compat]
+ArgCheck = "2.0"
+
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
