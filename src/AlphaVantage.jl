@@ -22,5 +22,6 @@ include("stock_time_series.jl")
 include("digital_currency.jl")
 include("foreign_exchange_currency.jl")
 include("stock_technical_indicators.jl")
+include("sector_performance.jl")
 
 end # module

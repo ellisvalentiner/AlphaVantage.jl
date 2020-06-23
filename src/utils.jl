@@ -23,16 +23,20 @@ function _parse_response(data, datatype::String)
 end
 
 """
-Internal function that forms the request uri
+Internal function that helps forms the request uri
 """
-function _form_uri_stock_timeseries(func::String, symbol::String, outputsize::String="compact", datatype::String="json")
-
-    uri = "$(alphavantage_api)query?"
-    
-    f = "function="* uppercase(func)
-    s = "symbol=$(symbol)"
+function _form_uri_tail(outputsize::String, datatype::String)
     o = "outputsize=$outputsize"
     d = "datatype=$datatype"
     a = "apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    reqString = uri * f * "&" * s * "&" * o * "&" * d * "&" * a 
+    "&" * o * "&" * d * "&" * a
+end
+
+"""
+Internal function that helps forms the request uri
+"""
+function _form_uri_head(func::String)
+    uri = "$(alphavantage_api)query?"
+    f = "function="* uppercase(func)
+    uri * f
 end
