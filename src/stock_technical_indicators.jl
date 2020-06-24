@@ -1,4 +1,4 @@
-interval_indicators = ["VWAP", "AD", "OBV"]
+interval_indicators = ["VWAP", "AD", "OBV", "TRANGE"]
 
 for func in interval_indicators
     fname = Symbol(func)
@@ -13,7 +13,8 @@ for func in interval_indicators
     end
 end
 
-interval_seriestype_indicators = ["MACD"]
+interval_seriestype_indicators = ["MACD", "HT_TRENDLINE", "HT_SINE", "HT_TRENDMODE",
+                                  "HT_DCPERIOD", "HT_DCPHASE", "HT_PHASOR"]
 
 for func in interval_seriestype_indicators
     fname = Symbol(func)
@@ -30,7 +31,7 @@ for func in interval_seriestype_indicators
     end
 end
 
-interval_timeperiod_indicators = ["ADX", "ADXR", "CCI", "AROON"]
+interval_timeperiod_indicators = ["ADX", "ADXR", "CCI", "AROON", "NATR"]
 
 for func in interval_timeperiod_indicators
     fname = Symbol(func)

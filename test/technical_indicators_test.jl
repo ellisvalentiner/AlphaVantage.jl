@@ -1,7 +1,7 @@
 @testset "Technical Indicators" begin
 
     @testset "Interval, Time Period, Series Type" begin
-        for ti in Symbol.(AlphaVantage.interval_timeperiod_seriestype_indicators)
+        for ti in Symbol.(AlphaVantage.interval_timeperiod_seriestype_indicators[1:2])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -15,7 +15,7 @@
     end
 
     @testset "Interval, Time Period" begin
-        for ti in Symbol.(AlphaVantage.interval_timeperiod_indicators)
+        for ti in Symbol.(AlphaVantage.interval_timeperiod_indicators[1:2])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -29,7 +29,7 @@
     end
 
     @testset "Interval, Series Type" begin
-        for ti in Symbol.(AlphaVantage.interval_seriestype_indicators)
+        for ti in Symbol.(AlphaVantage.interval_seriestype_indicators[1:2])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -43,7 +43,7 @@
     end
 
     @testset "Interval" begin
-        for ti in Symbol.(AlphaVantage.interval_indicators)
+        for ti in Symbol.(AlphaVantage.interval_indicators[1:2])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -55,5 +55,5 @@
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
         end
     end
-    
+
 end
