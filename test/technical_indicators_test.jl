@@ -56,4 +56,14 @@
         end
     end
 
+    @testset "Optional Arguments" begin
+
+        data = MACD("MSFT", "5min", "high", fastperiod = 13, slowperiod = 25)
+        @test typeof(data) === Dict{String, Any}
+        @test length(data) === 2
+        @test data["Meta Data"]["5.2: Slow Period"] == 25
+        @test data["Meta Data"]["5.1: Fast Period"] == 13
+
+    end
+
 end

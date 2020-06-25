@@ -40,3 +40,13 @@ function _form_uri_head(func::String)
     f = "function="* uppercase(func)
     uri * f
 end
+
+function _parse_params(params)
+    if isempty(params)
+        return ""
+    else
+        args = keys(params)
+        values = collect(params)
+        return mapreduce(i-> "$(args[i])=$(params[i])&", *, 1:length(params)) 
+    end   
+end
