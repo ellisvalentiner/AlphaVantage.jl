@@ -2,6 +2,7 @@ using AlphaVantage
 using Test
 
 TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "2"))
 
 @testset "AlphaVantage" begin
 
