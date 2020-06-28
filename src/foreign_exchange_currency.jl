@@ -20,10 +20,9 @@ for func in (:daily, :weekly, :monthly)
     x = "fx_$(func)"
     fname = Symbol(x)
     @eval begin
-        function ($fname)(from_currency::String, to_currency::String; outputsize::String="compact", datatype::String="json")
-            @argcheck in(outputsize, ["compact", "full"])
+        function ($fname)(from_currency::String, to_currency::String; datatype::String="json")
             @argcheck in(datatype, ["json", "csv"])
-            uri = _form_uri_head(uppercase($x)) * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(outputsize, datatype)
+            uri = _form_uri_head(uppercase($x)) * "&from_symbol=$from_currency&to_symbol=$to_currency&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
             data = _get_request(uri)
             return _parse_response(data, datatype)
         end
