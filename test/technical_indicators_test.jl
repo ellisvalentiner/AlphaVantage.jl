@@ -1,13 +1,21 @@
 @testset "Technical Indicators" begin
 
     @testset "Interval, Time Period, Series Type" begin
-        for ti in Symbol.(AlphaVantage.interval_timeperiod_seriestype_indicators[1:2])
+        for ti in Symbol.(AlphaVantage.interval_timeperiod_seriestype_indicators[1:MAX_TESTS])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
-                    data = $ti("MSFT", "weekly", 10, "open")
-                    @test typeof(data) === Dict{String, Any}
-                    @test length(data) === 2
+                    @testset "JSON" begin 
+                        data = $ti("MSFT", "weekly", 10, "open")
+                        @test typeof(data) === Dict{String, Any}
+                        @test length(data) === 2
+                    end
+                    sleep(TEST_SLEEP_TIME + 2*rand())
+                    @testset "CSV" begin
+                        data = $ti("MSFT", "weekly", 10, "open", datatype="csv")
+                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                        @test length(data) === 2
+                    end
                 end
             end
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
@@ -15,13 +23,21 @@
     end
 
     @testset "Interval, Time Period" begin
-        for ti in Symbol.(AlphaVantage.interval_timeperiod_indicators[1:2])
+        for ti in Symbol.(AlphaVantage.interval_timeperiod_indicators[1:MAX_TESTS])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
-                    data = $ti("MSFT", "weekly", 10)
-                    @test typeof(data) === Dict{String, Any}
-                    @test length(data) === 2
+                    @testset "JSON" begin
+                        data = $ti("MSFT", "weekly", 10)
+                        @test typeof(data) === Dict{String, Any}
+                        @test length(data) === 2
+                    end
+                    sleep(TEST_SLEEP_TIME + 2*rand())
+                    @testset "CSV" begin
+                        data = $ti("MSFT", "weekly", 10, datatype="csv")
+                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                        @test length(data) === 2
+                    end
                 end
             end
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
@@ -29,13 +45,22 @@
     end
 
     @testset "Interval, Series Type" begin
-        for ti in Symbol.(AlphaVantage.interval_seriestype_indicators[1:2])
+        for ti in Symbol.(AlphaVantage.interval_seriestype_indicators[1:MAX_TESTS])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
-                    data = $ti("MSFT", "weekly", "open")
-                    @test typeof(data) === Dict{String, Any}
-                    @test length(data) === 2
+                    @testset "JSON" begin
+                        data = $ti("MSFT", "weekly", "open")
+                        @test typeof(data) === Dict{String, Any}
+                        @test length(data) === 2
+                    end
+                    sleep(TEST_SLEEP_TIME + 2*rand())
+                    @testset "CSV" begin
+                        data = $ti("MSFT", "weekly", "open", datatype="csv")
+                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                        @test length(data) === 2
+                    end
+
                 end
             end
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
@@ -43,13 +68,21 @@
     end
 
     @testset "Interval" begin
-        for ti in Symbol.(AlphaVantage.interval_indicators[1:2])
+        for ti in Symbol.(AlphaVantage.interval_indicators[1:MAX_TESTS])
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
-                    data = $ti("MSFT", "15min")
-                    @test typeof(data) === Dict{String, Any}
-                    @test length(data) === 2
+                    @testset "JSON" begin
+                        data = $ti("MSFT", "15min")
+                        @test typeof(data) === Dict{String, Any}
+                        @test length(data) === 2
+                    end
+                    sleep(TEST_SLEEP_TIME + 2*rand())
+                    @testset "CSV" begin
+                        data = $ti("MSFT", "15min", datatype="csv")
+                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                        @test length(data) === 2
+                    end
                 end
             end
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API

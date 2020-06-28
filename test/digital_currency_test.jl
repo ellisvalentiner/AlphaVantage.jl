@@ -3,9 +3,17 @@
         @eval begin
             testname = string($f)
             @testset "$testname" begin
-                data = $f("BTC")
-                @test typeof(data) === Dict{String,Any}
-                @test length(data) === 2
+                @testset "JSON" begin
+                    data = $f("BTC")
+                    @test typeof(data) === Dict{String,Any}
+                    @test length(data) === 2
+                end
+                sleep(TEST_SLEEP_TIME + 2*rand())
+                @testset "CSV" begin
+                    data = $f("BTC", datatype = "csv")
+                    @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                    @test length(data) === 2
+                end
             end
         end
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
