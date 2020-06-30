@@ -12,6 +12,10 @@ notifications:
   email: false
 git:
   depth: 1
+
+codecov: true
+coveralls: true
+
 #after_success:
 #- julia -e 'using Pkg; Pkg.add("Documenter"); Pkg.add("Coverage");'
 #- julia -e 'import AlphaVantage; joinpath(dirname(pathof(AlphaVantage)), ".."); include(joinpath("docs", "make.jl"))'
