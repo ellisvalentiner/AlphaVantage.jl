@@ -5,14 +5,14 @@ function currency_exchange_rate(from_currency::String, to_currency::String)
 end
 export currency_exchange_rate
 
-function fx_intraday(from_currency::String, to_currency::String, interval::String="1min", outputsize::String="compact", datatype::String="json")
+function fx_intraday(from_currency::String, to_currency::String, interval::String="1min"; outputsize::String="compact", datatype::String="json")
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv"])
 
     uri = _form_uri_head("FX_INTRADAY") * "&from_symbol=$from_currency&to_symbol=$to_currency&interval=$interval" * _form_uri_tail(outputsize, datatype)  
     data = _get_request(uri)
-    return _parse_response(data, "json")
+    return _parse_response(data, datatype)
 end
 export fx_intraday
 

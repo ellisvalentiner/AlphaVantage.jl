@@ -14,7 +14,7 @@ for func in (:daily, :weekly, :monthly)
 end
 
 function crypto_rating(symbol::String)
-    uri = "$(alphavantage_api)query?function=CRYPTO_RATING&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    uri = "$(alphavantage_api)query?function=CRYPTO_RATING&symbol=$symbol&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
     data = _get_request(uri)
     return _parse_response(data, "json")
 end
