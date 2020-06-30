@@ -1,7 +1,7 @@
 
-stock_time_series_functions = (:time_series_daily, :time_series_daily_adjusted, :time_series_weekly, :time_series_weekly_adjusted, :time_series_monthly, :time_series_monthly_adjusted)
+stock_time_series_functions = [:time_series_daily, :time_series_daily_adjusted, :time_series_weekly, :time_series_weekly_adjusted, :time_series_monthly, :time_series_monthly_adjusted]
 
-stock_time_series_functions_test = [:time_series_intraday, stock_time_series_functions[1:MAX_TESTS]]
+stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series_functions[1:MAX_TESTS])
 
 @testset "Stock Time Series" begin
     for f in stock_time_series_functions_test
