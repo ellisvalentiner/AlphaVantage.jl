@@ -23,6 +23,7 @@
         data = crypto_rating("BTC")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 1
+        @test data["Crypto Rating (FCAS)"]["1. symbol"] === "BTC"
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
