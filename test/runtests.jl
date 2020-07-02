@@ -1,34 +1,18 @@
 using AlphaVantage
 using Test
 
-@testset "Stock Time Series" begin
-    for f in (:time_series_intraday, :time_series_daily)
-        @eval begin
-            testname = string($f)
-            @testset "$testname" begin
-                data = $f("MSFT")
-                @test typeof(data) === Dict{String,Any}
-                @test length(data) === 2
-            end
-        end
-    end
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+
+@testset "AlphaVantage" begin
+
+include("stock_time_series_test.jl")
+include("foreign_exchange_curency_test.jl")
+include("sector_performance_test.jl")
+include("technical_indicators_test.jl")
+include("digital_currency_test.jl")
+
 end
 
-@testset "Digital Currencies" begin
-    for f in (:digital_currency_intraday, :digital_currency_daily)
-        @eval begin
-            testname = string($f)
-            @testset "$testname" begin
-                data = $f("BTC")
-                @test typeof(data) === Dict{String,Any}
-                @test length(data) === 2
-            end
-        end
-    end
-end
 
-@testset "Foreign Exchange Currency" begin
-    data = currency_exchange_rate("BTC", "USD")
-    @test typeof(data) === Dict{String,Any}
-    @test length(data) === 1
-end
+

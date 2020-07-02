@@ -1,4 +1,4 @@
-function time_series_intraday(symbol::String; interval::String="1min", outputsize::String="compact", datatype::String="json")
+function time_series_intraday(symbol::String, interval::String="1min"; outputsize::String="compact", datatype::String="json")
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv"])
