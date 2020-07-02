@@ -6,8 +6,8 @@
 
 [![codecov.io](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl/coverage.svg?branch=master)](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/stable)
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/latest)
+#[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/stable)
+#[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://ellisvalentiner.github.io/AlphaVantage.jl/latest)
 
 A Julia wrapper for the Alpha Vantage API.
 
@@ -35,17 +35,17 @@ using DataFrames
 using StatPlots
 gr(size=(800,470))
 # Get daily S&P 500 data
-gspc = time_series_daily("^GSPC", datatype="csv");
+spy = time_series_daily("SPY", datatype="csv");
 # Convert to a DataFrame
-data = DataFrame(gspc[2:end, :]);
+data = DataFrame(spy[1]);
 # Add column names
-names!(data, convert.(Symbol, gspc[1,:]));
+data = rename(data, Symbol.(vcat(spy[2]...)));
 # Convert timestamp column to Date type
-data[:timestamp] = Dates.Date.(data[:timestamp]);
+data[!, :timestamp] = Dates.Date.(data[!, :timestamp]);
+data[!, :open] = Float64.(data[!, :open])
 # Plot the timeseries
-@df data plot(:timestamp, [:low :high :close], label=["Low" "High" "Close"],
-              colour=["#A2A6A5", "#F68E5B", "#B47E6E"], w=2)
+plot(data[!, :timestamp], data[!, :open], label=["Open"])
 savefig("sp500.png")
 ```
 
-![](docs/src/static/sp500.png)
+![](docs/src/static/spy.png)
