@@ -16,7 +16,17 @@ function fx_intraday(from_currency::String, to_currency::String, interval::Strin
 end
 export fx_intraday
 
-for func in (:daily, :weekly, :monthly)
+function fx_daily(from_currency::String, to_currency::String; outputsize::String="compact", datatype::String="json")
+    @argcheck in(outputsize, ["compact", "full"])
+    @argcheck in(datatype, ["json", "csv"])
+
+    uri = _form_uri_head("FX_DAILY") * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(outputsize, datatype)  
+    data = _get_request(uri)
+    return _parse_response(data, datatype)
+end
+export fx_daily
+
+for func in (:weekly, :monthly)
     x = "fx_$(func)"
     fname = Symbol(x)
     @eval begin
