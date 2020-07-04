@@ -13,7 +13,14 @@
         sleep(TEST_SLEEP_TIME + 2*rand())
     end
 
-    for f in (:fx_daily, :fx_weekly, :fx_monthly)[1:MAX_TESTS]
+    @testset "fx_daily" begin
+        data = fx_daily("EUR", "USD")
+        @test typeof(data) === Dict{String,Any}
+        @test length(data) === 2
+        sleep(TEST_SLEEP_TIME + 2*rand())
+    end
+
+    for f in (:fx_weekly, :fx_monthly)[1:MAX_TESTS]
         @eval begin
             testname = string($f)
             @testset "$testname" begin
