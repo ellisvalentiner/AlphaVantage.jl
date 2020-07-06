@@ -17,9 +17,7 @@ The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/supp
 ## Installation
 
 ```julia
-# AlphaVantage.jl is not currently registered as an official package
-# Please install the development version from GitHub:
-Pkg.clone("git://GitHub.com/ellisvalentiner/AlphaVantage.jl")
+Pkg.add("AlphaVantage")
 ```
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
