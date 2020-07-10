@@ -19,6 +19,11 @@ The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/supp
 ```julia
 Pkg.add("AlphaVantage")
 ```
+and once you have obtained your API key set it as an environment variable.
+
+```julia
+ENV["ALPHA_VANTAGE_API_KEY"] = "YOURKEY"
+```
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
 
