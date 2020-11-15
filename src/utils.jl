@@ -19,6 +19,8 @@ function _parse_response(data, datatype::String)
         return readdlm(data.body, ',', header=true)
     elseif datatype == "json"
         return JSON.Parser.parse(String(data.body))
+    elseif datatype == "raw"
+        return data.body
     end
 end
 
