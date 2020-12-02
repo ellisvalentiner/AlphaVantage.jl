@@ -42,3 +42,14 @@ function cash_flow(symbol::String; outputsize::String="compact", datatype::Strin
     return _parse_response(data, datatype)
 end
 export cash_flow
+
+# Earnings (https://www.alphavantage.co/documentation/#earnings)
+# ex: https://www.alphavantage.co/query?function=EARNINGS&symbol=IBM&apikey=demo
+
+function earnings(symbol::String; outputsize::String="compact", datatype::String="json")
+    @argcheck in(datatype, ["json", "csv"])
+    uri = _form_uri_head("EARNINGS") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
+    data = _get_request(uri)
+    return _parse_response(data, datatype)
+end
+export earnings
