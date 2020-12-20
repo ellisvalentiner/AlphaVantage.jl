@@ -31,8 +31,7 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 
 ```julia
 using AlphaVantage
-using DataFrames
-using StatPlots
+using DataFrames, StatsPlots, Dates
 gr(size=(800,470))
 # Get daily S&P 500 data
 spy = time_series_daily("SPY", datatype="csv");
