@@ -53,3 +53,18 @@ function earnings(symbol::String; outputsize::String="compact", datatype::String
     return _parse_response(data, datatype)
 end
 export earnings
+
+function listingstatus()
+    uri = _form_uri_head("LISTING_STATUS") * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    data = _get_request(uri)
+    return _parse_response(data, "csv")
+end
+
+function listingstatus(state::String, date::String)
+    @argcheck in(state, ["active", "delisted"])
+    uri = _form_uri_head("LISTING_STATUS") * "&state=$(state)&date=$(date)&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    data = _get_request(uri)
+    return _parse_response(data, "csv")
+end
+
+export listingstatus

@@ -35,4 +35,17 @@
         @test length(data) === 3
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
+
+    @testset "Listing Status" begin
+        @testset "Default" begin
+            data = listingstatus()
+            @test length(data) == 2
+        end
+
+        @testset "Delisted and Date" begin
+            data = listingstatus("delisted", "2020-12-17")
+            @test length(data) == 2
+        end        
+    end
+
 end
