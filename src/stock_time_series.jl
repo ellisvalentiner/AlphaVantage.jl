@@ -1,3 +1,17 @@
+function time_series_intraday_extended(symbol::String, interval::String="60min", slice::String="year1month1")
+    @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
+    sliceMatch = match(r"year(?<year>\d+)month(?<month>\d+)", slice)
+    @argcheck !isnothing(sliceMatch)
+    @argcheck parse(Int, sliceMatch["year"]) > 0
+    @argcheck parse(Int, sliceMatch["year"]) < 3
+    @argcheck parse(Int, sliceMatch["month"]) > 0
+    @argcheck parse(Int, sliceMatch["month"]) < 13
+    uri = "$(alphavantage_api)query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=$symbol&interval=$interval&slice=$slice&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
+    data = _get_request(uri)
+    return _parse_response(data, "csv")
+end
+export time_series_intraday_extended
+
 function time_series_intraday(symbol::String, interval::String="1min"; outputsize::String="compact", datatype::String="json")
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
     @argcheck in(outputsize, ["compact", "full"])
