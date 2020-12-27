@@ -24,4 +24,14 @@ stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series
         end
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
+
+    f = :time_series_intraday_extended
+    @eval begin
+        testname = string($f)
+        @testset "$testname" begin
+            data = $f("MSFT")
+            @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+            @test length(data) === 2
+        end
+    end
 end
