@@ -24,6 +24,7 @@ for val in vals
             end
         end
     end
+    sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
 end
 
 end
