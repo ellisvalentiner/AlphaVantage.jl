@@ -1,7 +1,7 @@
 function time_series_intraday_extended(symbol::String, interval::String="60min", slice::String="year1month1")
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
     sliceMatch = match(r"year(?<year>\d+)month(?<month>\d+)", slice)
-    @argcheck !isnothing(sliceMatch)
+    @argcheck !Compat.isnothing(sliceMatch)
     @argcheck parse(Int, sliceMatch["year"]) > 0
     @argcheck parse(Int, sliceMatch["year"]) < 3
     @argcheck parse(Int, sliceMatch["month"]) > 0
