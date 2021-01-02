@@ -7,7 +7,7 @@ function time_series_intraday_extended(symbol::String, interval::String="60min",
     @argcheck parse(Int, sliceMatch["month"]) > 0
     @argcheck parse(Int, sliceMatch["month"]) < 13
     uri = "$(alphavantage_api)query?function=TIME_SERIES_INTRADAY_EXTENDED&symbol=$symbol&interval=$interval&slice=$slice&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, "csv")
 end
 export time_series_intraday_extended
@@ -17,7 +17,7 @@ function time_series_intraday(symbol::String, interval::String="1min"; outputsiz
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv"])
     uri = "$(alphavantage_api)query?function=TIME_SERIES_INTRADAY&symbol=$symbol&interval=$interval&outputsize=$outputsize&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export time_series_intraday
@@ -30,7 +30,7 @@ for func in (:daily, :daily_adjusted, :weekly, :weekly_adjusted, :monthly, :mont
             @argcheck in(outputsize, ["compact", "full"])
             @argcheck in(datatype, ["json", "csv"])
             uri = "$(alphavantage_api)query?function="* uppercase($x) * "&symbol=$symbol&outputsize=$outputsize&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
         export $fname

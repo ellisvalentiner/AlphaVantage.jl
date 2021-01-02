@@ -5,7 +5,7 @@
 function company_overview(symbol::String; outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head("OVERVIEW") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export company_overview
@@ -16,7 +16,7 @@ export company_overview
 function income_statement(symbol::String; outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head("INCOME_STATEMENT") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export income_statement
@@ -27,7 +27,7 @@ export income_statement
 function balance_sheet(symbol::String; outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head("BALANCE_SHEET") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export balance_sheet
@@ -38,7 +38,7 @@ export balance_sheet
 function cash_flow(symbol::String; outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head("CASH_FLOW") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export cash_flow
@@ -49,21 +49,21 @@ export cash_flow
 function earnings(symbol::String; outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head("EARNINGS") * "&symbol=$symbol" * _form_uri_tail(outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export earnings
 
 function listingstatus()
     uri = _form_uri_head("LISTING_STATUS") * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, "csv")
 end
 
 function listingstatus(state::String, date::String)
     @argcheck in(state, ["active", "delisted"])
     uri = _form_uri_head("LISTING_STATUS") * "&state=$(state)&date=$(date)&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, "csv")
 end
 
