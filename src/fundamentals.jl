@@ -68,3 +68,21 @@ function listingstatus(state::String, date::String)
 end
 
 export listingstatus
+
+
+for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES  
+
+    timeframeF = replace(timeframe, "Report"=>"")
+    timeframeF = replace(timeframeF, "Earnings"=>"")
+    fname = Symbol(value * "_" * timeframeF)
+    fS = Symbol(f)
+    @eval begin
+        function $fname(symbol::String)
+            data = $fS(symbol)
+            dts = get.(data[$timeframe], $dateKey, "")
+            vals = get.(data[$timeframe], $value, "")
+            Dict(:Date => dts, Symbol($value)=>vals)
+        end
+        export $fname
+    end
+ end
