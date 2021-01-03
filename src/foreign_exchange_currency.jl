@@ -1,6 +1,6 @@
 function currency_exchange_rate(from_currency::String, to_currency::String)
     uri = _form_uri_head("CURRENCY_EXCHANGE_RATE") * "&from_currency=$from_currency&to_currency=$to_currency&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, "json")
 end
 export currency_exchange_rate
@@ -11,7 +11,7 @@ function fx_intraday(from_currency::String, to_currency::String, interval::Strin
     @argcheck in(datatype, ["json", "csv"])
 
     uri = _form_uri_head("FX_INTRADAY") * "&from_symbol=$from_currency&to_symbol=$to_currency&interval=$interval" * _form_uri_tail(outputsize, datatype)  
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export fx_intraday
@@ -21,7 +21,7 @@ function fx_daily(from_currency::String, to_currency::String; outputsize::String
     @argcheck in(datatype, ["json", "csv"])
 
     uri = _form_uri_head("FX_DAILY") * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(outputsize, datatype)  
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 export fx_daily
@@ -33,7 +33,7 @@ for func in (:weekly, :monthly)
         function ($fname)(from_currency::String, to_currency::String; datatype::String="json")
             @argcheck in(datatype, ["json", "csv"])
             uri = _form_uri_head(uppercase($x)) * "&from_symbol=$from_currency&to_symbol=$to_currency&datatype=$datatype&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
         export $fname

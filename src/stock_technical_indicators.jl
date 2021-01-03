@@ -12,7 +12,7 @@ for func in interval_indicators
             optionalParams = _parse_params(kwargs)
             
             uri = _form_uri_head(uppercase($func)) * requiredParams * optionalParams * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname
@@ -34,7 +34,7 @@ for func in interval_seriestype_indicators
             optionalParams = _parse_params(kwargs)
 
             uri = _form_uri_head(uppercase($func)) * requiredParams * optionalParams * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname
@@ -58,7 +58,7 @@ for func in interval_timeperiod_indicators
             optionalParams = _parse_params(kwargs)
 
             uri = _form_uri_head(uppercase($func)) * requiredParams * optionalParams * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
         export $fname
@@ -83,7 +83,7 @@ for func in interval_timeperiod_seriestype_indicators
             requiredParams = "&symbol=$symbol&interval=$interval&time_period=$time_period&series_type=$series_type&datatype=$datatype&"
             optionalParams = _parse_params(kwargs)
             uri = _form_uri_head(uppercase($func)) * requiredParams * optionalParams * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname

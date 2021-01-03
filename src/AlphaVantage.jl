@@ -4,6 +4,7 @@ module AlphaVantage
 
 const alphavantage_api = "https://www.alphavantage.co/"
 
+using Compat
 using ArgCheck
 using DelimitedFiles
 using HTTP
