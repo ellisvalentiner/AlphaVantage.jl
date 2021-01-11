@@ -2,6 +2,7 @@ VERSION >= v"1.0.0"
 
 module AlphaVantage
 
+using Compat
 using ArgCheck
 using DelimitedFiles
 using HTTP
@@ -15,13 +16,16 @@ include("digital_currency.jl")
 include("foreign_exchange_currency.jl")
 include("stock_technical_indicators.jl")
 include("sector_performance.jl")
+include("fundamental_values.jl")
 include("fundamentals.jl")
 
 # avclient
 export global_key!, global_entry!, AVClient
 
 # stock_time_series
-export time_series_intraday
+export
+    time_series_intraday,
+    time_series_intraday_extended
 # `time_series_daily` etc are exported in macro
 
 # digital_currency
@@ -47,6 +51,7 @@ export
     income_statement,
     balance_sheet,
     cash_flow,
-    listing_status
+    listing_status,
+    earnings
 
 end # module

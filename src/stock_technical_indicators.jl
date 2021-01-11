@@ -12,7 +12,7 @@ for func in interval_indicators
             optionalParams = _parse_params(kwargs)
             
             uri = _form_uri_head(client, uppercase($func)) * requiredParams * optionalParams * _form_uri_tail(client, nothing, datatype)
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname
@@ -34,7 +34,7 @@ for func in interval_seriestype_indicators
             optionalParams = _parse_params(kwargs)
 
             uri = _form_uri_head(client, uppercase($func)) * requiredParams * optionalParams * _form_uri_tail(client, nothing, datatype)
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname
@@ -57,8 +57,8 @@ for func in interval_timeperiod_indicators
             requiredParams = "&symbol=$symbol&interval=$interval&time_period=$time_period"
             optionalParams = _parse_params(kwargs)
 
-            uri = _form_uri_head(uppercase($func)) * requiredParams * optionalParams * "&apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-            data = _get_request(uri)
+            uri = _form_uri_head(client, uppercase($func)) * requiredParams * optionalParams * _form_uri_tail(client, nothing, datatype)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
         export $fname
@@ -75,7 +75,7 @@ interval_timeperiod_seriestype_indicators = ["EMA", "SMA", "WMA",
 for func in interval_timeperiod_seriestype_indicators
     fname = Symbol(func)
     @eval begin 
-        function ($fname)(symbol::String, interval::String, time_period::Int64, series_type::String; datatype::String="json", kwargs...)
+        function ($fname)(symbol::String, interval::String, time_period::Int64, series_type::String; client = GLOBAL[], datatype::String="json", kwargs...)
             @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min", "daily", "weekly", "monthly"])
             @argcheck in(series_type, ["open", "high", "low", "close"])
             @argcheck time_period > 0
@@ -83,7 +83,7 @@ for func in interval_timeperiod_seriestype_indicators
             requiredParams = "&symbol=$symbol&interval=$interval&time_period=$time_period&series_type=$series_type&datatype=$datatype&"
             optionalParams = _parse_params(kwargs)
             uri = _form_uri_head(client, uppercase($func)) * requiredParams * optionalParams * _form_uri_tail(client, nothing, datatype)
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
     export $fname

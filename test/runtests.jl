@@ -9,9 +9,10 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 include("stock_time_series_test.jl")
 include("foreign_exchange_curency_test.jl")
 include("sector_performance_test.jl")
-include("technical_indicators_test.jl")
 include("digital_currency_test.jl")
+include("technical_indicators_test.jl")
 include("fundamentals_test.jl")
+include("fundamental_values_test.jl")
 
 end
 

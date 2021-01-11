@@ -1,9 +1,10 @@
 using Documenter, AlphaVantage
 
-makedocs()
+makedocs(
+    sitename = "AlphaVantage.jl Documentation"
+)
 
 deploydocs(
     deps   = Deps.pip("mkdocs"),
-    repo   = "github.com/ellisvalentiner/AlphaVantage.jl.git",
-    julia  = "0.6"
+    repo   = "github.com/ellisvalentiner/AlphaVantage.jl.git"
 )

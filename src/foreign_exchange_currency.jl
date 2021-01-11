@@ -1,6 +1,6 @@
 function currency_exchange_rate(from_currency::String, to_currency::String; client = GLOBAL[])
     uri = _form_uri_head(client, "CURRENCY_EXCHANGE_RATE") * "&from_currency=$from_currency&to_currency=$to_currency" * _form_uri_tail(client, nothing, nothing)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, "json")
 end
 
@@ -10,7 +10,7 @@ function fx_intraday(from_currency::String, to_currency::String, interval::Strin
     @argcheck in(datatype, ["json", "csv"])
 
     uri = _form_uri_head(client, "FX_INTRADAY") * "&from_symbol=$from_currency&to_symbol=$to_currency&interval=$interval" * _form_uri_tail(client, outputsize, datatype)  
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
@@ -18,8 +18,8 @@ function fx_daily(from_currency::String, to_currency::String; client = GLOBAL[],
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv"])
 
-    uri = _form_uri_head(en"FX_DAILY") * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(client, outputsize, datatype)  
-    data = _get_request(uri)
+    uri = _form_uri_head(client, "FX_DAILY") * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(client, outputsize, datatype)  
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
@@ -30,7 +30,7 @@ for func in (:weekly, :monthly)
         function ($fname)(from_currency::String, to_currency::String; client = GLOBAL[], datatype::String="json")
             @argcheck in(datatype, ["json", "csv"])
             uri = _form_uri_head(client, uppercase($x)) * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(client, nothing, datatype)
-            data = _get_request(uri)
+            data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             return _parse_response(data, datatype)
         end
         export $fname

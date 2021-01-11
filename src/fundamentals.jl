@@ -5,7 +5,7 @@
 function company_overview(symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head(client, "OVERVIEW") * "&symbol=$symbol" * _form_uri_tail(client, outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
@@ -15,7 +15,7 @@ end
 function income_statement(symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head(client, "INCOME_STATEMENT") * "&symbol=$symbol" * _form_uri_tail(client, outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
@@ -25,7 +25,7 @@ end
 function balance_sheet(symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head(client, "BALANCE_SHEET") * "&symbol=$symbol" * _form_uri_tail(client, outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
@@ -35,19 +35,49 @@ end
 function cash_flow(symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json")
     @argcheck in(datatype, ["json", "csv"])
     uri = _form_uri_head(client, "CASH_FLOW") * "&symbol=$symbol" * _form_uri_tail(client, outputsize, datatype)
-    data = _get_request(uri)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
 
 # Listing Status (https://www.alphavantage.co/documentation/#listing-status)
 # ex: https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=demo
 
-function listing_status(; client = GLOBAL[], outputsize="compact", datatype="csv", date = nothing, state = "active")
-    @argcheck in(datatype, ["csv"])
-    query = "&state=$state"
+function listing_status(; client = GLOBAL[], date = nothing, state = nothing)
+    query = ""
+    if !(state === nothing)
+        @argcheck in(state, ["active", "delisted"])
+        query *= "&state=$state"
+    end
     !(date === nothing) && (query *= "&date=$date")
 
-    uri = _form_uri_head(client, "LISTING_STATUS") * query * _form_uri_tail(client, outputsize, datatype)
-    data = _get_request(uri)
+    uri = _form_uri_head(client, "LISTING_STATUS") * query * _form_uri_tail(client, nothing, nothing)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
+    return _parse_response(data, "csv")
+end
+
+# Earnings (https://www.alphavantage.co/documentation/#earnings)
+# ex: https://www.alphavantage.co/query?function=EARNINGS&symbol=IBM&apikey=demo
+
+function earnings(symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json")
+    @argcheck in(datatype, ["json", "csv"])
+    uri = _form_uri_head(client, "EARNINGS") * "&symbol=$symbol" * _form_uri_tail(client, outputsize, datatype)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     return _parse_response(data, datatype)
 end
+
+for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES  
+
+    timeframeF = replace(timeframe, "Report"=>"")
+    timeframeF = replace(timeframeF, "Earnings"=>"")
+    fname = Symbol(value * "_" * timeframeF)
+    fS = Symbol(f)
+    @eval begin
+        function $fname(symbol::String)
+            data = $fS(symbol)
+            dts = get.(data[$timeframe], $dateKey, "")
+            vals = get.(data[$timeframe], $value, "")
+            Dict(:Date => dts, Symbol($value)=>vals)
+        end
+        export $fname
+    end
+ end
