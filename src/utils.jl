@@ -19,26 +19,25 @@ function _parse_response(data, datatype::String)
         return readdlm(data.body, ',', header=true)
     elseif datatype == "json"
         return JSON.Parser.parse(String(data.body))
-    elseif datatype == "raw"
-        return data.body
     end
 end
 
 """
 Internal function that helps forms the request uri
 """
-function _form_uri_tail(outputsize::String, datatype::String)
-    o = "outputsize=$outputsize"
-    d = "datatype=$datatype"
-    a = "apikey=" * ENV["ALPHA_VANTAGE_API_KEY"]
-    "&" * o * "&" * d * "&" * a
+function _form_uri_tail(client::AVClient, outputsize, datatype)
+    a = "&apikey=" * key(client)
+    a = outputsize === nothing ? a : "&outputsize=$outputsize" * a
+    a = datatype === nothing ? a : "&datatype=$datatype" * a
+
+    return a
 end
 
 """
 Internal function that helps forms the request uri
 """
-function _form_uri_head(func::String)
-    uri = "$(alphavantage_api)query?"
+function _form_uri_head(client::AVClient, func)
+    uri = entry(client) * "query?"
     f = "function="* uppercase(func)
     uri * f
 end
@@ -49,6 +48,6 @@ function _parse_params(params)
     else
         args = keys(params)
         values = collect(params)
-        return mapreduce(i-> "$(args[i])=$(params[i])&", *, 1:length(params)) 
-    end   
+        return mapreduce(i-> "&$(args[i])=$(params[i])", *, 1:length(params)) 
+    end
 end
