@@ -2,7 +2,7 @@ name = "AlphaVantage"
 uuid = "6348297c-a006-11e8-3a05-9bbf8830fd7b"
 license = "MIT"
 authors = ["Ellis Valentiner <ellisvalentiner@gmail.com>", "Dean Markwick <dean.markwick@talk21.com>"]
-version = "0.2.2"
+version = "0.3.0"
 
 [deps]
 ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
@@ -22,6 +22,7 @@ julia = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+JSON3 = "0f8b85d8-7281-11e9-16c2-39a750bddbf1"
 
 [targets]
-test = ["Test"]
+test = ["Test", "JSON3"]

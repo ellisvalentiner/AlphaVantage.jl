@@ -1,3 +1,10 @@
+module TestDigitalCurrency
+using AlphaVantage
+using Test
+
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+
 @testset "Digital Currencies" begin
     for f in (:digital_currency_daily, :digital_currency_weekly, :digital_currency_monthly)
         @eval begin
@@ -28,3 +35,5 @@
     end
 
 end
+
+end # module

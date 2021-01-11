@@ -1,3 +1,10 @@
+module TestStockTimeSeries
+using AlphaVantage
+using Test
+using JSON3
+
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 
 stock_time_series_functions = [:time_series_daily, :time_series_daily_adjusted, :time_series_weekly, :time_series_weekly_adjusted, :time_series_monthly, :time_series_monthly_adjusted]
 
@@ -19,7 +26,12 @@ stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series
                     @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
                     @test length(data) === 2
                 end
-
+                
+                @testset "JSON3" begin
+                    data = $f("MSFT", parser = x -> JSON3.read(x.body))
+                    @test typeof(data) === JSON3.Object{Vector{UInt8}, Vector{UInt64}}
+                    @test length(data) === 2
+                end
             end
         end
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
@@ -35,3 +47,5 @@ stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series
         end
     end
 end
+
+end # module

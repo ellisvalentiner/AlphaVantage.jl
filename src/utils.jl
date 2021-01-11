@@ -62,3 +62,13 @@ function _parse_params(params)
         return mapreduce(i-> "&$(args[i])=$(params[i])", *, 1:length(params)) 
     end
 end
+
+_parser(p, datatype) = p
+function _parser(p::AbstractString, datatype)
+    if p == "default"
+        return x -> _parse_response(x, datatype)
+    else
+        # if parser is unknown, then return raw data
+        return identity
+    end
+end
