@@ -7,7 +7,7 @@ end
 
 AVClient(; key = "", entry = alphavantage_api) = AVClient(key, entry)
 
-const GLOBAL = Ref(AVClient(key = haskey(ENV, "ALPHA_VANTAGE_API_KEY") ? ENV["ALPHA_VANTAGE_API_KEY"] : ""))
+const GLOBAL = Ref(AVClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", "")))
 
 function global_key!(key)
     GLOBAL[] = AVClient(key, GLOBAL[].entry)
