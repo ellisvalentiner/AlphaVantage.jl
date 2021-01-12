@@ -1,3 +1,10 @@
+module TestForeignExchangeCurrency
+using AlphaVantage
+using Test
+
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+
 @testset "Foreign Exchange Currency" begin
     @testset "currency_exchange_rate" begin
         data = currency_exchange_rate("BTC", "USD")
@@ -33,3 +40,5 @@
     end
 
 end
+
+end # module

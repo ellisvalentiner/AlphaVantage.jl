@@ -1,5 +1,6 @@
 using AlphaVantage
 using Test
+using JSON3
 
 TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
 MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))

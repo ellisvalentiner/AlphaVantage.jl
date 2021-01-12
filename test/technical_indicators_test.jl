@@ -1,3 +1,10 @@
+module TestTechnicalIndicators
+using AlphaVantage
+using Test
+
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+
 @testset "Technical Indicators" begin
 
     @testset "Interval, Time Period, Series Type" begin
@@ -100,3 +107,5 @@
     end
 
 end
+
+end # module

@@ -1,3 +1,10 @@
+module TestFundamentals
+using AlphaVantage
+using Test
+
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+
 @testset "Fundamentals" begin
     symbol = "IBM"
 
@@ -38,14 +45,16 @@
 
     @testset "Listing Status" begin
         @testset "Default" begin
-            data = listingstatus()
+            data = listing_status()
             @test length(data) == 2
         end
 
         @testset "Delisted and Date" begin
-            data = listingstatus("delisted", "2020-12-17")
+            data = listing_status(state = "delisted", date = "2020-12-17")
             @test length(data) == 2
         end        
     end
 
 end
+
+end # module
