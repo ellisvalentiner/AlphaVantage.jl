@@ -1,16 +1,14 @@
 # AlphaVantage
 
 [![Build Status](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl.svg?branch=master)](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl)
-
 [![codecov.io](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl/coverage.svg?branch=master)](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
-
 [![Coverage Status](https://coveralls.io/repos/github/ellisvalentiner/AlphaVantage.jl/badge.svg?branch=master)](https://coveralls.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
 
 A Julia wrapper for the Alpha Vantage API.
 
 ## Overview
 
-This package is a Julia wrapper for the Alpha Vantage API. Alpha Vantage provides free realtime and historical data for equities, digital currencies (i.e. cryptocurrencies), and more than 50 technical indicators (e.g. SMA, EMA, WMA, etc.).
+This package is a Julia wrapper for the Alpha Vantage API. Alpha Vantage provides free realtime and historical data for equities, physical currencies, digital currencies (i.e. cryptocurrencies), and more than 50 technical indicators (e.g. SMA, EMA, WMA, etc.).
 
 The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/support/#api-key).
 
@@ -26,6 +24,14 @@ ENV["ALPHA_VANTAGE_API_KEY"] = "YOURKEY"
 ```
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
+
+## Features
+
+* Intraday prices for stocks, currencies and cryptocurrencies.
+* Daily, weekly and monthly prices for stocks, currencies and cryptocurrencies. 
+* Technical indicators for stock prices. 
+* Crypto currency health index from Flipside Crypto. 
+* Fundamental data for stocks. 
 
 ## Usage
 
