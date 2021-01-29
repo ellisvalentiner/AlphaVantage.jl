@@ -44,6 +44,11 @@ function _form_uri_tail(client::AVClient, outputsize, datatype)
     return a
 end
 
+function _form_uri_tail(client::AVClient)
+    "&apikey=" * key(client)
+end
+
+
 """
 Internal function that helps forms the request uri
 """

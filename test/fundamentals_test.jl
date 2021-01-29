@@ -47,14 +47,27 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
         @testset "Default" begin
             data = listing_status()
             @test length(data) == 2
+            sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
         end
 
         @testset "Delisted and Date" begin
             data = listing_status(state = "delisted", date = "2020-12-17")
             @test length(data) == 2
+            sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
         end        
     end
 
+    @testset "Earnings Calendar" begin
+        data = earnings_calendar(3)
+        @test length(data) == 2
+        sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
+    end
+
+    @testset "IPO Calendar" begin
+        data = ipo_calendar()
+        @test length(data) == 2
+        sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
+    end
 end
 
 end # module

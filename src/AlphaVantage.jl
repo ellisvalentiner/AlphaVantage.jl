@@ -52,6 +52,8 @@ export
     balance_sheet,
     cash_flow,
     listing_status,
-    earnings
+    earnings,
+    earnings_calendar,
+    ipo_calendar
 
 end # module

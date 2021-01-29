@@ -87,3 +87,17 @@ for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES
         export $fname
     end
  end
+
+ function earnings_calendar(horizon::Int64; client=GLOBAL[], parser = "default")
+    uri = _form_uri_head(client, "EARNINGS_CALENDAR") * "&horizon=$(horizon)month" * _form_uri_tail(client)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=4, max_delay=1000))(uri)
+    p = _parser(parser, "csv")
+    return p(data)
+ end 
+
+ function ipo_calendar(; client = GLOBAL[], parser = "default")
+    uri = _form_uri_head(client, "IPO_CALENDAR") * _form_uri_tail(client)
+    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=4, max_delay=1000))(uri)
+    p = _parser(parser, "csv")
+    return p(data)
+ end
