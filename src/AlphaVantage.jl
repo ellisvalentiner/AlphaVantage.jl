@@ -29,7 +29,7 @@ export
 # `time_series_daily` etc are exported in macro
 
 # digital_currency
-export crypto_rating
+export crypto_rating, digital_currency_intraday
 # `digital_currency_daily` etc are exported in macro
 
 # foreign_exchange_currency
