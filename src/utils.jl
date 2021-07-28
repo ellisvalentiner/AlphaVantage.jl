@@ -1,24 +1,34 @@
-
 """
-Internal function that wraps Requests.get
+Internal function that wraps HTTP.get
 """
 function _get_request(uri::String)
     resp = HTTP.get(uri)
-    # Check if API limit reached
-    for header in resp.headers
-        if header[1] == "Content-Type" && header[2] == "application/json"
-            body = _parse_response(resp, "json")
-            # JSON object with 'Note' indicates the API limit was reached
-            if haskey(body, "Note")
-                error("API limit exceeded")
-            end
+    _check_api_limit(resp)
+    _check_status_code(resp)
+    return resp
+end
+
+"""
+Internal function to check whether the response contains
+    'Note' that indicates the API limit was reached
+"""
+function _check_api_limit(resp::HTTP.Messages.Response)
+    content_type = HTTP.Messages.header(resp.headers, "Content-Type")
+    if content_type == "application/json"
+        body = _parse_response(resp, "json")
+        if haskey(body, "Note")
+            error("API limit exceeded")
         end
     end
+end
+
+"""
+Internal function to check response status code
+"""
+function _check_status_code(resp::HTTP.Messages.Response)
     if resp.status != 200
-        #desc = STATUS_CODES[status]
         error("Expected status code 200 but received $resp.status")
     end
-    return resp
 end
 
 """
@@ -64,7 +74,7 @@ function _parse_params(params)
     else
         args = keys(params)
         values = collect(params)
-        return mapreduce(i-> "&$(args[i])=$(params[i])", *, 1:length(params)) 
+        return mapreduce(i-> "&$(args[i])=$(params[i])", *, 1:length(params))
     end
 end
 

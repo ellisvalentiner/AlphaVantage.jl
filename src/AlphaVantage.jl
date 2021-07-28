@@ -1,4 +1,4 @@
-VERSION >= v"1.0.0"
+VERSION >= v"1.6.0"
 
 module AlphaVantage
 
@@ -6,7 +6,6 @@ using Compat
 using ArgCheck
 using DelimitedFiles
 using HTTP
-using HttpCommon
 using JSON
 
 include("avclient.jl")
