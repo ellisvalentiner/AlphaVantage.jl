@@ -44,13 +44,23 @@ function _parse_response(data, datatype::String)
 end
 
 """
+Internal function to build the request URI
+"""
+function _build_uri(scheme::String, host::String, path::String, params::Dict)
+    @argcheck in(scheme, ["https", "http"])
+    params = filter(p -> p.second !== nothing, params)
+    params = collect(pairs(params))
+    query = join(map(p -> "$(p.first)=$(p.second)", params), "&")
+    return "$(scheme)://$(host)/$(path)?$(query)"
+end
+
+"""
 Internal function that helps forms the request uri
 """
 function _form_uri_tail(client::AVClient, outputsize, datatype)
     a = "&apikey=" * key(client)
     a = outputsize === nothing ? a : "&outputsize=$outputsize" * a
     a = datatype === nothing ? a : "&datatype=$datatype" * a
-
     return a
 end
 
