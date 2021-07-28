@@ -48,7 +48,7 @@ Internal function to build the request URI
 """
 function _build_uri(scheme::String, host::String, path::String, params::Dict)
     @argcheck in(scheme, ["https", "http"])
-    params = filter(p -> p.second !== nothing, params)
+    params = filter(p -> !isnothing(p.second), params)
     params = collect(pairs(params))
     query = join(map(p -> "$(p.first)=$(p.second)", params), "&")
     return "$(scheme)://$(host)/$(path)?$(query)"
