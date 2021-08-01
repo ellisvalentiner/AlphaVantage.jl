@@ -33,7 +33,7 @@ stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series
                 end
                 sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "JSON3" begin
-                    data = $f("MSFT", parser = x -> JSON3.read(x.body))
+                    data = $f("MSFT", datatype="json", parser = x -> JSON3.read(x.body))
                     @test typeof(data) === JSON3.Object{Vector{UInt8}, Vector{UInt64}}
                     @test length(data) === 2
                 end
