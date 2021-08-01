@@ -1,5 +1,5 @@
-function _fundamental(func::String, symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::String="json", parser = "default")
-    @argcheck in(datatype, ["json", "csv"])
+function _fundamental(func::String, symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::Union{String, Nothing}=nothing, parser = "default")
+    @argcheck in(datatype, ["json", "csv", nothing])
     params = Dict("function"=>func, "symbol"=>symbol, "outputsize"=>outputsize, "datatype"=>datatype, "apikey"=>key(client))
     uri = _build_uri("https", "www.alphavantage.co", "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
@@ -38,9 +38,10 @@ for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES
     @eval begin
         function $fname(symbol::String)
             data = $fS(symbol)
-            dts = get.(data[$timeframe], $dateKey, "")
-            vals = get.(data[$timeframe], $value, "")
-            Dict(:Date => dts, Symbol($value)=>vals)
+            # dts = get.(data[$timeframe], $dateKey, "")
+            # vals = get.(data[$timeframe], $value, "")
+            # Dict(:Date => dts, Symbol($value)=>vals)
+            data
         end
         export $fname
     end

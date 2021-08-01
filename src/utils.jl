@@ -34,12 +34,15 @@ end
 """
 Internal function that parses the response
 """
-function _parse_response(data, datatype::String)
+function _parse_response(data, datatype::Union{String, Nothing})
     if datatype == "csv"
         return readdlm(data.body, ',', header=true)
     elseif datatype == "json"
         body = copy(data.body)  # TODO: re-write to avoid copying
         return JSON.Parser.parse(String(body))
+    else
+        raw = readdlm(data.body, ',', header=true)
+        return AlphaVantageResponse(raw)
     end
 end
 

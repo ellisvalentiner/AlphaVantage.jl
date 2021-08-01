@@ -15,18 +15,23 @@ stock_time_series_functions_test = vcat(:time_series_intraday, stock_time_series
         @eval begin
             testname = string($f)
             @testset "$testname" begin
-                @testset "JSON" begin
+                @testset "AlphaVantageResponse" begin
                     data = $f("MSFT")
+                    @test isa(data, AlphaVantageResponse)
+                end
+                sleep(TEST_SLEEP_TIME + 2*rand())
+                @testset "JSON" begin
+                    data = $f("MSFT", datatype="json")
                     @test typeof(data) === Dict{String,Any}
                     @test length(data) === 2
                 end
-
+                sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "CSV" begin
                     data = $f("MSFT", datatype="csv")
                     @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
                     @test length(data) === 2
                 end
-                
+                sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "JSON3" begin
                     data = $f("MSFT", parser = x -> JSON3.read(x.body))
                     @test typeof(data) === JSON3.Object{Vector{UInt8}, Vector{UInt64}}

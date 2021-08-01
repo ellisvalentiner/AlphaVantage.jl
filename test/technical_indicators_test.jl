@@ -12,8 +12,8 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
-                    @testset "JSON" begin 
-                        data = $ti("MSFT", "weekly", 10, "open")
+                    @testset "JSON" begin
+                        data = $ti("MSFT", "weekly", 10, "open", datatype="json")
                         @test typeof(data) === Dict{String, Any}
                         @test length(data) === 2
                     end
@@ -35,7 +35,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
                     @testset "JSON" begin
-                        data = $ti("MSFT", "weekly", 10)
+                        data = $ti("MSFT", "weekly", 10, datatype="json")
                         @test typeof(data) === Dict{String, Any}
                         @test length(data) === 2
                     end
@@ -57,7 +57,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
                     @testset "JSON" begin
-                        data = $ti("MSFT", "weekly", "open")
+                        data = $ti("MSFT", "weekly", "open", datatype="json")
                         @test typeof(data) === Dict{String, Any}
                         @test length(data) === 2
                     end
@@ -80,7 +80,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
                     @testset "JSON" begin
-                        data = $ti("MSFT", "15min")
+                        data = $ti("MSFT", "15min", datatype="json")
                         @test typeof(data) === Dict{String, Any}
                         @test length(data) === 2
                     end

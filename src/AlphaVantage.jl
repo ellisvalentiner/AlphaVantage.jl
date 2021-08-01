@@ -9,6 +9,7 @@ using HTTP
 using JSON
 
 include("avclient.jl")
+include("avresponse.jl")
 include("utils.jl")
 include("stock_time_series.jl")
 include("digital_currency.jl")
@@ -19,7 +20,7 @@ include("fundamental_values.jl")
 include("fundamentals.jl")
 
 # avclient
-export global_key!, global_entry!, AVClient
+export global_key!, global_entry!, AVClient, AlphaVantageResponse
 
 # stock_time_series
 export

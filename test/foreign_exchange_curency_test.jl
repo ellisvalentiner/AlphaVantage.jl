@@ -14,14 +14,14 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
     end
 
     @testset "fx_intraday" begin
-        data = fx_intraday("EUR", "USD")
+        data = fx_intraday("EUR", "USD", datatype="json")
         @test typeof(data) === Dict{String,Any}
         @test length(data) === 2
         sleep(TEST_SLEEP_TIME + 2*rand())
     end
 
     @testset "fx_daily" begin
-        data = fx_daily("EUR", "USD")
+        data = fx_daily("EUR", "USD", datatype="json")
         @test typeof(data) === Dict{String,Any}
         @test length(data) === 2
         sleep(TEST_SLEEP_TIME + 2*rand())
@@ -31,7 +31,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
         @eval begin
             testname = string($f)
             @testset "$testname" begin
-                data = $f("EUR", "USD")
+                data = $f("EUR", "USD", datatype="json")
                 @test typeof(data) === Dict{String,Any}
                 @test length(data) === 2
             end
