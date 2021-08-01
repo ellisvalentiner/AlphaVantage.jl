@@ -36,12 +36,11 @@ for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES
     fname = Symbol(value * "_" * timeframeF)
     fS = Symbol(f)
     @eval begin
-        function $fname(symbol::String)
-            data = $fS(symbol)
-            # dts = get.(data[$timeframe], $dateKey, "")
-            # vals = get.(data[$timeframe], $value, "")
-            # Dict(:Date => dts, Symbol($value)=>vals)
-            data
+        function $fname(symbol::String; kwargs...)
+            data = $fS(symbol; kwargs...)
+            dts = get.(data[$timeframe], $dateKey, "")
+            vals = get.(data[$timeframe], $value, "")
+            Dict(:Date => dts, Symbol($value)=>vals)
         end
         export $fname
     end

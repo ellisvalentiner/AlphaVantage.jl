@@ -98,7 +98,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 
     @testset "Optional Arguments" begin
 
-        data = MACD("MSFT", "5min", "high", fastperiod = 13, slowperiod = 25)
+        data = MACD("MSFT", "5min", "high", fastperiod = 13, slowperiod = 25, datatype="json")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 2
         @test data["Meta Data"]["5.2: Slow Period"] == 25

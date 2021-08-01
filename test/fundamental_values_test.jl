@@ -18,7 +18,7 @@ for val in vals
         @testset "Annual" begin
             fnameA = Symbol(val * "_" * "annuals")
             @eval begin
-                aRes = $(fnameA)("AAPL", datatype="csv")
+                aRes = $(fnameA)("AAPL", datatype="json")
                 @test length(aRes) == 2
             end
         end
@@ -26,7 +26,7 @@ for val in vals
         @testset "Quarterly" begin
             fnameQ = Symbol(val * "_" * "quarterlys")
             @eval begin
-                qRes = $(fnameQ)("AAPL", datatype="csv")
+                qRes = $(fnameQ)("AAPL", datatype="json")
                 @test length(qRes) == 2
             end
         end
