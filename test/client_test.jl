@@ -4,3 +4,5 @@ using Test
 
 client = AlphaVantage.GLOBAL[]
 @test !isempty(client.key)
+
+end
