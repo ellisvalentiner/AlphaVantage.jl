@@ -1,20 +1,21 @@
-const alphavantage_api = "https://www.alphavantage.co/"
+const alphavantage_api = "www.alphavantage.co"
 
 struct AVClient
+    scheme::String
     key::String
-    entry::String
+    host::String
 end
 
-AVClient(; key = "", entry = alphavantage_api) = AVClient(key, entry)
+AVClient(; scheme = "https", key = "", host = alphavantage_api) = AVClient(scheme, key, host)
 
 const GLOBAL = Ref(AVClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", "")))
 
 function global_key!(key)
-    GLOBAL[] = AVClient(key, GLOBAL[].entry)
+    GLOBAL[] = AVClient(key, GLOBAL[].host)
 end
 
-function global_entry!(entry)
-    GLOBAL[] = AVClient(GLOBAL[].key, entry)
+function global_host!(host)
+    GLOBAL[] = AVClient(GLOBAL[].key, host)
 end
 
 function key(client::AVClient)
@@ -25,4 +26,5 @@ function key(client::AVClient)
     return client.key
 end
 
-entry(client::AVClient) = client.entry
+host(client::AVClient) = client.host
+key(client::AVClient) = client.key
