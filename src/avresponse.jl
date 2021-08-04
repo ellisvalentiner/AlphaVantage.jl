@@ -18,7 +18,6 @@ end
 
 AlphaVantageResponse(data::Matrix{T} where T, names::Matrix{AbstractString}) = begin
     v = AbstractVector[c for c in eachcol(data)]
-    # @show typeof(v)
     n = vec(names)
     AlphaVantageResponse(v, n)
 end
@@ -26,6 +25,8 @@ end
 AlphaVantageResponse(raw::Tuple{Matrix{Any}, Matrix{AbstractString}}) = begin
     AlphaVantageResponse(raw[1], raw[2])
 end
+
+AlphaVantageResponse(d::Dict) = Tables.table(reshape(collect(values(d)), (1,:)), header=keys(d))
 
 Tables.istable(::AlphaVantageResponse) = true
 Tables.rowaccess(::AlphaVantageResponse) = false
