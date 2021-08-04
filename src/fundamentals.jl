@@ -1,7 +1,13 @@
 function _fundamental(func::String, symbol::String; client = GLOBAL[], outputsize::String="compact", datatype::Union{String, Nothing}=nothing, parser = "default")
     @argcheck in(datatype, ["json", "csv", nothing])
-    params = Dict("function"=>func, "symbol"=>symbol, "outputsize"=>outputsize, "datatype"=>datatype, "apikey"=>key(client))
-    uri = _build_uri("https", "www.alphavantage.co", "query", params)
+    params = Dict(
+        "function"=>func,
+        "symbol"=>symbol,
+        "outputsize"=>outputsize,
+        "datatype"=>datatype,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, datatype)
     return p(data)
@@ -17,13 +23,19 @@ earnings(symbol::String; kwargs...) = _fundamental("EARNINGS", symbol::String; k
 # ex: https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=demo
 function listing_status(; client = GLOBAL[], date = nothing, state = nothing, parser = "default")
     query = ""
-    if !(state === nothing)
+    if !isnothing(state)
         @argcheck in(state, ["active", "delisted"])
         query *= "&state=$state"
     end
-    !(date === nothing) && (query *= "&date=$date")
+    !isnothing(date) && (query *= "&date=$date")
 
-    uri = _form_uri_head(client, "LISTING_STATUS") * query * _form_uri_tail(client, nothing, nothing)
+    params = Dict(
+        "function"=>"LISTING_STATUS",
+        "date"=>date,
+        "state"=>state,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, "csv")
     return p(data)
@@ -46,16 +58,25 @@ for (timeframe, f, value, dateKey) in FUNDAMENTAL_VALUES
     end
  end
 
- function earnings_calendar(horizon::Int64; client=GLOBAL[], parser = "default")
-    uri = _form_uri_head(client, "EARNINGS_CALENDAR") * "&horizon=$(horizon)month" * _form_uri_tail(client)
+function earnings_calendar(horizon::Int64; client=GLOBAL[], parser = "default")
+    params = Dict(
+         "function"=>"EARNINGS_CALENDAR",
+         "horizon"=>"$(horizon)month",
+         "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=4, max_delay=1000))(uri)
     p = _parser(parser, "csv")
     return p(data)
- end
+end
 
- function ipo_calendar(; client = GLOBAL[], parser = "default")
-    uri = _form_uri_head(client, "IPO_CALENDAR") * _form_uri_tail(client)
+function ipo_calendar(; client = GLOBAL[], parser = "default")
+    params = Dict(
+        "function"=>"IPO_CALENDAR",
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=4, max_delay=1000))(uri)
     p = _parser(parser, "csv")
     return p(data)
- end
+end

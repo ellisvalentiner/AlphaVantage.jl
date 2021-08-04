@@ -57,40 +57,6 @@ function _build_uri(scheme::String, host::String, path::String, params::Dict)
     return "$(scheme)://$(host)/$(path)?$(query)"
 end
 
-"""
-Internal function that helps forms the request uri
-"""
-function _form_uri_tail(client::AVClient, outputsize, datatype)
-    a = "&apikey=" * key(client)
-    a = outputsize === nothing ? a : "&outputsize=$outputsize" * a
-    a = datatype === nothing ? a : "&datatype=$datatype" * a
-    return a
-end
-
-function _form_uri_tail(client::AVClient)
-    "&apikey=" * key(client)
-end
-
-
-"""
-Internal function that helps forms the request uri
-"""
-function _form_uri_head(client::AVClient, func)
-    uri = entry(client) * "query?"
-    f = "function="* uppercase(func)
-    uri * f
-end
-
-function _parse_params(params)
-    if isempty(params)
-        return ""
-    else
-        args = keys(params)
-        values = collect(params)
-        return mapreduce(i-> "&$(args[i])=$(params[i])", *, 1:length(params))
-    end
-end
-
 _parser(p, datatype) = p
 function _parser(p::AbstractString, datatype)
     if p == "default"

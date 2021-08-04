@@ -5,7 +5,15 @@ for func in (:daily, :weekly, :monthly)
         function ($fname)(symbol::String, market::String="USD"; client = GLOBAL[], outputsize::String="compact", datatype::Union{String, Nothing}=nothing, parser = "default")
             @argcheck in(outputsize, ["compact", "full"])
             @argcheck in(datatype, ["json", "csv", nothing])
-            uri = _form_uri_head(client, uppercase($x)) * "&symbol=$symbol&market=$market" * _form_uri_tail(client, outputsize, datatype)
+            params = Dict(
+                "function"=>uppercase($x),
+                "symbol"=>symbol,
+                "market"=>market,
+                "outputsize"=>outputsize,
+                "datatype"=>isnothing(datatype) ? "csv" : datatype,
+                "apikey"=>key(client)
+            )
+            uri = _build_uri(client.scheme, client.host, "query", params)
             data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             p = _parser(parser, datatype)
             return p(data)
@@ -18,16 +26,29 @@ function digital_currency_intraday(symbol::String, market::String="USD", interva
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv", nothing])
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
-    uri = _form_uri_head(client, "CRYPTO_INTRADAY") * "&symbol=$(symbol)&market=$market&interval=$(interval)" * _form_uri_tail(client, outputsize, datatype)
+    params = Dict(
+        "function"=>"CRYPTO_INTRADAY",
+        "symbol"=>symbol,
+        "market"=>market,
+        "interval"=>interval,
+        "outputsize"=>outputsize,
+        "datatype"=>isnothing(datatype) ? "csv" : datatype,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, datatype)
     return p(data)
 end
 
 function crypto_rating(symbol::String; client = GLOBAL[], parser = "default")
-    uri = _form_uri_head(client, "CRYPTO_RATING") * "&symbol=$symbol" * _form_uri_tail(client, nothing, nothing)
+    params = Dict(
+        "function"=>"CRYPTO_RATING",
+        "symbol"=>symbol,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
-
     p = _parser(parser, "json")
     return p(data)
 end

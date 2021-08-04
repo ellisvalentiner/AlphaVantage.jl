@@ -1,5 +1,11 @@
 function currency_exchange_rate(from_currency::String, to_currency::String; client = GLOBAL[], parser = "default")
-    uri = _form_uri_head(client, "CURRENCY_EXCHANGE_RATE") * "&from_currency=$from_currency&to_currency=$to_currency" * _form_uri_tail(client, nothing, nothing)
+    params = Dict(
+        "function"=>"CURRENCY_EXCHANGE_RATE",
+        "from_currency"=>from_currency,
+        "to_currency"=>to_currency,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, "json")
     return p(data)
@@ -10,7 +16,16 @@ function fx_intraday(from_currency::String, to_currency::String, interval::Strin
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv", nothing])
 
-    uri = _form_uri_head(client, "FX_INTRADAY") * "&from_symbol=$from_currency&to_symbol=$to_currency&interval=$interval" * _form_uri_tail(client, outputsize, datatype)
+    params = Dict(
+        "function"=>"FX_INTRADAY",
+        "from_symbol"=>from_currency,
+        "to_symbol"=>to_currency,
+        "interval"=>interval,
+        "outputsize"=>outputsize,
+        "datatype"=>isnothing(datatype) ? "csv" : datatype,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, datatype)
     return p(data)
@@ -20,7 +35,15 @@ function fx_daily(from_currency::String, to_currency::String; client = GLOBAL[],
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv", nothing])
 
-    uri = _form_uri_head(client, "FX_DAILY") * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(client, outputsize, datatype)
+    params = Dict(
+        "function"=>"FX_DAILY",
+        "from_symbol"=>from_currency,
+        "to_symbol"=>to_currency,
+        "outputsize"=>outputsize,
+        "datatype"=>isnothing(datatype) ? "csv" : datatype,
+        "apikey"=>key(client)
+    )
+    uri = _build_uri(client.scheme, client.host, "query", params)
     data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
     p = _parser(parser, datatype)
     return p(data)
@@ -32,7 +55,14 @@ for func in (:weekly, :monthly)
     @eval begin
         function ($fname)(from_currency::String, to_currency::String; client = GLOBAL[], datatype::Union{String, Nothing}=nothing, parser = "default")
             @argcheck in(datatype, ["json", "csv", nothing])
-            uri = _form_uri_head(client, uppercase($x)) * "&from_symbol=$from_currency&to_symbol=$to_currency" * _form_uri_tail(client, nothing, datatype)
+            params = Dict(
+                "function"=>uppercase($x),
+                "from_symbol"=>from_currency,
+                "to_symbol"=>to_currency,
+                "datatype"=>isnothing(datatype) ? "csv" : datatype,
+                "apikey"=>key(client)
+            )
+            uri = _build_uri(client.scheme, client.host, "query", params)
             data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
             p = _parser(parser, datatype)
             return p(data)
