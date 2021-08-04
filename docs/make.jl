@@ -6,5 +6,6 @@ makedocs(
 
 deploydocs(
     deps   = Deps.pip("mkdocs"),
-    repo   = "github.com/ellisvalentiner/AlphaVantage.jl.git"
+    repo   = "github.com/ellisvalentiner/AlphaVantage.jl.git",
+    push_preview = true
 )
