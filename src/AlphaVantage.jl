@@ -20,7 +20,7 @@ include("fundamental_values.jl")
 include("fundamentals.jl")
 
 # avclient
-export global_key!, global_entry!, AVClient, AlphaVantageResponse
+export key, AlphaVantageClient, AlphaVantageResponse
 
 # stock_time_series
 export

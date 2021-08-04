@@ -21,7 +21,8 @@ and once you have obtained your API key pass it to the client as follows:.
 
 ```julia
 using AlphaVantage
-AlphaVantage.global_key!("YOURKEY")
+client = AlphaVanatage.GLOBAL[]
+client.key = "YOURKEY"
 ```
 
 or set it as an environment variable
@@ -36,7 +37,6 @@ and check that it is set using:
 using AlphaVantage
 AlphaVantage.GLOBAL[]
 ```
-
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
 

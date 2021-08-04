@@ -1,30 +1,16 @@
-const alphavantage_api = "www.alphavantage.co"
-
-struct AVClient
+mutable struct AlphaVantageClient
     scheme::String
     key::String
     host::String
 end
 
-AVClient(; scheme = "https", key = "", host = alphavantage_api) = AVClient(scheme, key, host)
+AlphaVantageClient(; scheme = "https", key = "", host = alphavantage_api) = AlphaVantageClient(scheme, key, host)
 
-const GLOBAL = Ref(AVClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", "")))
+const GLOBAL = Ref(AlphaVantageClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", ""), host = get(ENV, "ALPHA_VANTAGE_HOST", "www.alphavantage.co")))
 
-function global_key!(key)
-    GLOBAL[] = AVClient(key, GLOBAL[].host)
-end
-
-function global_host!(host)
-    GLOBAL[] = AVClient(GLOBAL[].key, host)
-end
-
-function key(client::AVClient)
+function key(client::AlphaVantageClient)
     if isempty(client.key)
         @warn "No API key found"
     end
-
     return client.key
 end
-
-host(client::AVClient) = client.host
-key(client::AVClient) = client.key
