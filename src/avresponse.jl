@@ -12,19 +12,19 @@ struct AlphaVantageResponse
     end
 end
 
-AlphaVantageResponse(data::Vector{Vector{T}} where T, names::Vector{String}) = begin
-    AlphaVantageResponse(AbstractVector[d for d in data], names)
-end
-
-AlphaVantageResponse(data::Matrix{T} where T, names::Matrix{AbstractString}) = begin
-    v = AbstractVector[c for c in eachcol(data)]
-    n = vec(names)
-    AlphaVantageResponse(v, n)
-end
-
-AlphaVantageResponse(raw::Tuple{Matrix{Any}, Matrix{AbstractString}}) = begin
-    AlphaVantageResponse(raw[1], raw[2])
-end
+# AlphaVantageResponse(data::Vector{Vector{T}} where T, names::Vector{String}) = begin
+#     AlphaVantageResponse(AbstractVector[d for d in data], names)
+# end
+#
+# AlphaVantageResponse(data::Matrix{T} where T, names::Matrix{AbstractString}) = begin
+#     v = AbstractVector[c for c in eachcol(data)]
+#     n = vec(names)
+#     AlphaVantageResponse(v, n)
+# end
+#
+# AlphaVantageResponse(raw::Tuple{Matrix{Any}, Matrix{AbstractString}}) = begin
+#     AlphaVantageResponse(raw[1], raw[2])
+# end
 
 AlphaVantageResponse(d::Dict) = Tables.table(reshape(collect(values(d)), (1,:)), header=keys(d))
 
