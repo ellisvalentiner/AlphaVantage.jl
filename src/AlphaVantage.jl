@@ -1,4 +1,4 @@
-VERSION >= v"1.0.0"
+VERSION >= v"1.6.0"
 
 module AlphaVantage
 
@@ -6,10 +6,10 @@ using Compat
 using ArgCheck
 using DelimitedFiles
 using HTTP
-using HttpCommon
 using JSON
 
 include("avclient.jl")
+include("avresponse.jl")
 include("utils.jl")
 include("stock_time_series.jl")
 include("digital_currency.jl")
@@ -20,7 +20,7 @@ include("fundamental_values.jl")
 include("fundamentals.jl")
 
 # avclient
-export global_key!, global_entry!, AVClient
+export key, AlphaVantageClient, AlphaVantageResponse
 
 # stock_time_series
 export

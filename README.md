@@ -21,7 +21,8 @@ and once you have obtained your API key pass it to the client as follows:.
 
 ```julia
 using AlphaVantage
-AlphaVantage.global_key!("YOURKEY")
+client = AlphaVanatage.GLOBAL[]
+client.key = "YOURKEY"
 ```
 
 or set it as an environment variable
@@ -32,21 +33,20 @@ export ALPHA_VANTAGE_API_KEY=YOURKEY
 
 and check that it is set using:
 
-```julia 
+```julia
 using AlphaVantage
 AlphaVantage.GLOBAL[]
 ```
-
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
 
 ## Features
 
 * Intraday prices for stocks, currencies and cryptocurrencies.
-* Daily, weekly and monthly prices for stocks, currencies and cryptocurrencies. 
-* Technical indicators for stock prices. 
-* Crypto currency health index from Flipside Crypto. 
-* Fundamental data for stocks. 
+* Daily, weekly and monthly prices for stocks, currencies and cryptocurrencies.
+* Technical indicators for stock prices.
+* Crypto currency health index from Flipside Crypto.
+* Fundamental data for stocks.
 
 ## Usage
 
@@ -55,11 +55,9 @@ using AlphaVantage
 using DataFrames, StatsPlots, Dates
 gr(size=(800,470))
 # Get daily S&P 500 data
-spy = time_series_daily("SPY", datatype="csv");
+spy = time_series_daily("SPY");
 # Convert to a DataFrame
-data = DataFrame(spy[1]);
-# Add column names
-data = rename(data, Symbol.(vcat(spy[2]...)));
+data = DataFrame(spy);
 # Convert timestamp column to Date type
 data[!, :timestamp] = Dates.Date.(data[!, :timestamp]);
 data[!, :open] = Float64.(data[!, :open])

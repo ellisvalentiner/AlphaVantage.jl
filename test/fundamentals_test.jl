@@ -9,35 +9,35 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
     symbol = "IBM"
 
     @testset "Overview" begin
-        data = company_overview(symbol)
+        data = company_overview(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
-        @test length(data) === 60
+        @test length(data) === 59
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
     @testset "Income Statement" begin
-        data = income_statement(symbol)
+        data = income_statement(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 3
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
     @testset "Balance Sheet" begin
-        data = balance_sheet(symbol)
+        data = balance_sheet(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 3
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
     @testset "Cash Flow" begin
-        data = cash_flow(symbol)
+        data = cash_flow(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 3
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
     @testset "Earnings" begin
-        data = earnings(symbol)
+        data = earnings(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
         @test length(data) === 3
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
@@ -54,7 +54,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
             data = listing_status(state = "delisted", date = "2020-12-17")
             @test length(data) == 2
             sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
-        end        
+        end
     end
 
     @testset "Earnings Calendar" begin

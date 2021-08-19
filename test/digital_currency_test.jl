@@ -10,8 +10,13 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
         @eval begin
             testname = string($f)
             @testset "$testname" begin
+                @testset "AlphaVantageResponse" begin
+                    data = $f("MSFT")
+                    @test isa(data, AlphaVantageResponse)
+                end
+                sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "JSON" begin
-                    data = $f("BTC")
+                    data = $f("BTC", datatype = "json")
                     @test typeof(data) === Dict{String,Any}
                     @test length(data) === 2
                 end
