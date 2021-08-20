@@ -4,7 +4,7 @@ struct AlphaVantageResponse
     data::Vector{AbstractVector}
     names::Vector{AbstractString}
 
-    AlphaVantageResponse(data::Vector{AbstractVector}, names::Vector{AbstractString}) = begin
+    AlphaVantageResponse(data::Vector{AbstractVector}, names::Vector{<:AbstractString}) = begin
         l1 = length(data[1])
         @assert all(t -> length(t) == l1, data)
         @assert length(data) == length(names)
@@ -12,17 +12,22 @@ struct AlphaVantageResponse
     end
 end
 
-AlphaVantageResponse(data::Vector{Vector{T}} where T, names::Vector{String}) = begin
-    AlphaVantageResponse(AbstractVector[d for d in data], names)
+function narrow_types(v::AbstractVector)
+    T = mapreduce(typeof, promote_type, v)
+    convert(AbstractVector{T}, v)
 end
 
-AlphaVantageResponse(data::Matrix{T} where T, names::Matrix{AbstractString}) = begin
-    v = AbstractVector[c for c in eachcol(data)]
+AlphaVantageResponse(data::AbstractVector{<:AbstractVector{T}} where T, names::AbstractVector{<:AbstractString}) = begin
+    AlphaVantageResponse(narrow_types(data), names)
+end
+
+AlphaVantageResponse(data::AbstractMatrix{T} where T, names::AbstractMatrix{<:AbstractString}) = begin
+    v = AbstractVector[narrow_types(c) for c in eachcol(data)]
     n = vec(names)
     AlphaVantageResponse(v, n)
 end
 
-AlphaVantageResponse(raw::Tuple{Matrix{Any}, Matrix{AbstractString}}) = begin
+AlphaVantageResponse(raw::Tuple{AbstractMatrix{Any}, AbstractMatrix{<:AbstractString}}) = begin
     AlphaVantageResponse(raw[1], raw[2])
 end
 
