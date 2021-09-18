@@ -17,5 +17,6 @@ include("digital_currency_test.jl")
 include("technical_indicators_test.jl")
 include("fundamentals_test.jl")
 include("fundamental_values_test.jl")
+include("economic_indicators_test.jl")
 
 end

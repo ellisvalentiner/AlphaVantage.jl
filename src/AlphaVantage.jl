@@ -18,6 +18,7 @@ include("stock_technical_indicators.jl")
 include("sector_performance.jl")
 include("fundamental_values.jl")
 include("fundamentals.jl")
+include("economic_indicators.jl")
 
 # avclient
 export key, AlphaVantageClient, AlphaVantageResponse
@@ -55,5 +56,13 @@ export
     earnings,
     earnings_calendar,
     ipo_calendar
+
+# economic_indicators
+# others exported in macro
+export
+    real_gdp,
+    treasury_yield,
+    federal_fund_rate,
+    cpi
 
 end # module
