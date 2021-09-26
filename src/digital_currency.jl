@@ -42,6 +42,12 @@ function digital_currency_intraday(symbol::String, market::String="USD", interva
 end
 
 function crypto_rating(symbol::String; client = GLOBAL[], parser = "default")
+
+    if true
+        warn("crypto_rating no longer provided by AlphaVantage")
+        return nothing
+    end
+    
     params = Dict(
         "function"=>"CRYPTO_RATING",
         "symbol"=>symbol,
