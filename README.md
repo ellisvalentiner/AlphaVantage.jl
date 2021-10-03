@@ -47,6 +47,7 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 * Technical indicators for stock prices.
 * Crypto currency health index from Flipside Crypto.
 * Fundamental data for stocks.
+* Economic Indicators 
 
 ## Usage
 
