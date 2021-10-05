@@ -21,7 +21,7 @@ and once you have obtained your API key pass it to the client as follows:.
 
 ```julia
 using AlphaVantage
-client = AlphaVanatage.GLOBAL[]
+client = AlphaVantage.GLOBAL[]
 client.key = "YOURKEY"
 ```
 
