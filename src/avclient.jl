@@ -9,6 +9,7 @@ AlphaVantageClient(; scheme = "https", key = "", host = alphavantage_api) = Alph
 const GLOBAL = Ref(AlphaVantageClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", ""), host = get(ENV, "ALPHA_VANTAGE_HOST", "www.alphavantage.co")))
 
 function key(client::AlphaVantageClient)
+    @show client.key
     if isempty(client.key)
         @warn "No API key found"
     end
