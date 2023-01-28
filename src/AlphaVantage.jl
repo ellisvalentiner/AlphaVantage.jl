@@ -12,6 +12,7 @@ include("avclient.jl")
 include("avresponse.jl")
 include("utils.jl")
 include("stock_time_series.jl")
+include("stock_quote.jl")
 include("digital_currency.jl")
 include("foreign_exchange_currency.jl")
 include("stock_technical_indicators.jl")
@@ -28,6 +29,9 @@ export
     time_series_intraday,
     time_series_intraday_extended
 # `time_series_daily` etc are exported in macro
+
+# stock_quote
+export stock_quote
 
 # digital_currency
 export crypto_rating, digital_currency_intraday
