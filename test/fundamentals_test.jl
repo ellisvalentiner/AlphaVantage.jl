@@ -11,7 +11,7 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
     @testset "Overview" begin
         data = company_overview(symbol, datatype="json")
         @test typeof(data) === Dict{String, Any}
-        @test length(data) === 59
+        @test length(data) === 46
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 

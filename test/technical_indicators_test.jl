@@ -4,6 +4,7 @@ using Test
 
 TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
 MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+PREMIUM = get(ENV, "TEST_PREMIUM", false)
 
 @testset "Technical Indicators" begin
 
@@ -31,6 +32,9 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 
     @testset "Interval, Time Period" begin
         for ti in Symbol.(AlphaVantage.interval_timeperiod_indicators[1:MAX_TESTS])
+            if ti in (:ADX, :CCI) && !PREMIUM
+                continue
+            end
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -53,6 +57,9 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 
     @testset "Interval, Series Type" begin
         for ti in Symbol.(AlphaVantage.interval_seriestype_indicators[1:MAX_TESTS])
+            if ti == :RSI && !PREMIUM
+                continue
+            end
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
@@ -76,6 +83,9 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 
     @testset "Interval" begin
         for ti in Symbol.(AlphaVantage.interval_indicators[1:MAX_TESTS])
+            if ti == :STOCH && !PREMIUM
+                continue
+            end
             @eval begin
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
