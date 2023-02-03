@@ -4,6 +4,7 @@ using Test
 
 TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
 MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
+PREMIUM = get(ENV, "TEST_PREMIUM", false)
 
 @testset "Foreign Exchange Currency" begin
     @testset "currency_exchange_rate" begin
@@ -13,11 +14,13 @@ MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
         sleep(TEST_SLEEP_TIME + 2*rand()) #as to not overload the API
     end
 
-    @testset "fx_intraday" begin
-        data = fx_intraday("EUR", "USD", datatype="json")
-        @test typeof(data) === Dict{String,Any}
-        @test length(data) === 2
-        sleep(TEST_SLEEP_TIME + 2*rand())
+    if PREMIUM
+        @testset "fx_intraday" begin
+            data = fx_intraday("EUR", "USD", datatype="json")
+            @test typeof(data) === Dict{String,Any}
+            @test length(data) === 2
+            sleep(TEST_SLEEP_TIME + 2*rand())
+        end
     end
 
     @testset "fx_daily" begin
