@@ -16,7 +16,7 @@ PREMIUM = get(ENV, "TEST_PREMIUM", false)
             testname = string($f)
             @testset "$testname" begin
                 @testset "AlphaVantageResponse" begin
-                    data = $f("MSFT")
+                    data = $f("BTC")
                     @test isa(data, AlphaVantageResponse)
                 end
                 sleep(TEST_SLEEP_TIME + 2*rand())
