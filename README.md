@@ -1,6 +1,6 @@
 # AlphaVantage
 
-[![Build Status](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl.svg?branch=master)](https://travis-ci.org/ellisvalentiner/AlphaVantage.jl)
+[![CI](https://github.com/ellisvalentiner/AlphaVantage.jl/actions/workflows/CI.yml/badge.svg)](https://github.com/ellisvalentiner/AlphaVantage.jl/actions/workflows/CI.yml)
 [![codecov.io](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl/coverage.svg?branch=master)](http://codecov.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/ellisvalentiner/AlphaVantage.jl/badge.svg?branch=master)](https://coveralls.io/github/ellisvalentiner/AlphaVantage.jl?branch=master)
 
