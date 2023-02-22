@@ -33,6 +33,12 @@ time_series_monthly()
 time_series_monthly_adjusted()
 ```
 
+### Stock Quote
+
+```
+stock_quote()
+```
+
 ### Digital Currencies
 
 ```
