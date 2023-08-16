@@ -1,34 +1,20 @@
-function time_series_intraday_extended(symbol::String, interval::String="60min", slice::String="year1month1"; client = GLOBAL[], parser = "default")
-    @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
-    sliceMatch = match(r"year(?<year>\d+)month(?<month>\d+)", slice)
-    @argcheck !Compat.isnothing(sliceMatch)
-    @argcheck parse(Int, sliceMatch["year"]) > 0
-    @argcheck parse(Int, sliceMatch["year"]) < 3
-    @argcheck parse(Int, sliceMatch["month"]) > 0
-    @argcheck parse(Int, sliceMatch["month"]) < 13
-    params = Dict(
-        "function"=>"TIME_SERIES_INTRADAY_EXTENDED",
-        "symbol"=>symbol,
-        "interval"=>interval,
-        "slice"=>slice,
-        "apikey"=>key(client)
-    )
-    uri = _build_uri(client.scheme, client.host, "query", params)
-    data = retry(_get_request, delays=Base.ExponentialBackOff(n=3, first_delay=5, max_delay=1000))(uri)
-    p = _parser(parser, "csv")
-    return p(data)
-end
-
-function time_series_intraday(symbol::String, interval::String="1min"; client = GLOBAL[], outputsize::String="compact", datatype::Union{String, Nothing}=nothing, parser = "default")
+function time_series_intraday(symbol::String, interval::String="1min"; client = GLOBAL[], outputsize::String="compact", datatype::Union{String, Nothing}=nothing, parser = "default", adjusted::Bool=true, extended_hours::Bool=true, month::Union{String, Nothing}=nothing)
     @argcheck in(interval, ["1min", "5min", "15min", "30min", "60min"])
     @argcheck in(outputsize, ["compact", "full"])
     @argcheck in(datatype, ["json", "csv", nothing])
+    if month != nothing
+        @argcheck occursin(r"^\d{4}-(0[1-9]|1[0-2])$", month) # month must be in MMMM-YY format 
+        @argcheck Date(month) >= Date("2000-01")
+    end
     params = Dict(
         "function"=>"TIME_SERIES_INTRADAY",
         "symbol"=>symbol,
         "interval"=>interval,
         "outputsize"=>outputsize,
         "datatype"=>datatype,
+        "adjusted"=>string(adjusted),
+        "extended_hours"=>string(extended_hours),
+        "month"=>month,
         "apikey"=>key(client)
     )
     uri = _build_uri(client.scheme, client.host, "query", params)
