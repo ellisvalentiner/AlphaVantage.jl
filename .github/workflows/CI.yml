@@ -41,7 +41,7 @@ jobs:
             ${{ runner.os }}-test-${{ env.cache-name }}-
             ${{ runner.os }}-test-
             ${{ runner.os }}-
-      - uses: julia-actions/julia-buildpkg@v1.4.2
+      - uses: julia-actions/julia-buildpkg@v1.4.3
       - run: |
           git config --global user.name Tester
           git config --global user.email te@st.er
