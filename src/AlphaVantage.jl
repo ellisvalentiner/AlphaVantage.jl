@@ -70,4 +70,7 @@ export
     federal_fund_rate,
     cpi
 
+# commodities
+# `WTI` etc are exported in macro
+
 end # module

@@ -1,5 +1,5 @@
 for func in (:wti, :brent, :natural_gas, :copper, :aluminum, :wheat, :corn, :cotton, :coffee, :all_commodities)
-    x = "fx_$(func)"
+    x = "$(func)"
     fname = Symbol(x)
     @eval begin
         function ($fname)(interval::String; client = GLOBAL[], datatype::Union{String, Nothing}=nothing, parser = "default")
