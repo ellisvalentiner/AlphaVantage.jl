@@ -20,6 +20,7 @@ include("sector_performance.jl")
 include("fundamental_values.jl")
 include("fundamentals.jl")
 include("economic_indicators.jl")
+include("commodities.jl")
 
 # avclient
 export key, AlphaVantageClient, AlphaVantageResponse
