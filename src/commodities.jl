@@ -2,7 +2,7 @@ for func in (:wti, :brent, :natural_gas, :copper, :aluminum, :wheat, :corn, :cot
     x = "$(func)"
     fname = Symbol(x)
     @eval begin
-        function ($fname)(;interval::Union{String, Nothing}=nothing, client = GLOBAL[], datatype::Union{String, Nothing}=nothing, parser = "default")
+        function ($fname)(interval::Union{String, Nothing}=nothing, client = GLOBAL[], datatype::Union{String, Nothing}=nothing, parser = "default")
             @argcheck in(interval, ["daily", "weekly", "monthly", nothing])
             @argcheck in(datatype, ["json", "csv", nothing])
             params = Dict(
