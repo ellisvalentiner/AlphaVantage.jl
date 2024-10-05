@@ -7,7 +7,7 @@ for func in (:wti, :brent, :natural_gas, :copper, :aluminum, :wheat, :corn, :cot
             @argcheck in(datatype, ["json", "csv", nothing])
             params = Dict(
                 "function"=>uppercase($x),
-                "interval"=>isnothing(interval) ? "daily" : interval,
+                "interval"=>isnothing(interval) ? "monthly" : interval,
                 "datatype"=>isnothing(datatype) ? "csv" : datatype,
                 "apikey"=>key(client)
             )
