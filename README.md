@@ -43,7 +43,7 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 ## Features
 
 * Intraday prices for stocks, currencies and cryptocurrencies.
-* Daily, weekly and monthly prices for stocks, currencies and cryptocurrencies.
+* Daily, weekly and monthly prices for stocks, currencies, cryptocurrencies, and commodities.
 * Technical indicators for stock prices.
 * Crypto currency health index from Flipside Crypto.
 * Fundamental data for stocks.
