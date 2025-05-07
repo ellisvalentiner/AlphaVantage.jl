@@ -6,6 +6,9 @@
 
 A Julia wrapper for the Alpha Vantage API.
 
+> [!IMPORTANT]
+> I'm looking for contributors and maintainers to help keep the package up-to-date.
+
 ## Overview
 
 This package is a Julia wrapper for the Alpha Vantage API. Alpha Vantage provides free realtime and historical data for equities, physical currencies, digital currencies (i.e. cryptocurrencies), and more than 50 technical indicators (e.g. SMA, EMA, WMA, etc.).
