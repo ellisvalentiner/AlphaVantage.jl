@@ -4,6 +4,8 @@ mutable struct AlphaVantageClient
     host::String
 end
 
+const alphavantage_api = "www.alphavantage.co"
+
 AlphaVantageClient(; scheme = "https", key = "", host = alphavantage_api) = AlphaVantageClient(scheme, key, host)
 
 const GLOBAL = Ref(AlphaVantageClient(key = get(ENV, "ALPHA_VANTAGE_API_KEY", ""), host = get(ENV, "ALPHA_VANTAGE_HOST", "www.alphavantage.co")))

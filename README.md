@@ -9,6 +9,10 @@ A Julia wrapper for the Alpha Vantage API.
 > [!IMPORTANT]
 > I'm looking for contributors and maintainers to help keep the package up-to-date.
 
+## Requirements
+
+This package requires Julia 1.6 or later.
+
 ## Overview
 
 This package is a Julia wrapper for the Alpha Vantage API. Alpha Vantage provides free realtime and historical data for equities, physical currencies, digital currencies (i.e. cryptocurrencies), and more than 50 technical indicators (e.g. SMA, EMA, WMA, etc.).
@@ -18,9 +22,17 @@ The Alpha Vantage API requires a [free API key](https://www.alphavantage.co/supp
 ## Installation
 
 ```julia
+using Pkg
 Pkg.add("AlphaVantage")
 ```
-and once you have obtained your API key pass it to the client as follows:.
+
+Or via the Julia Pkg REPL:
+
+```julia
+] add AlphaVantage
+```
+
+Once you have obtained your API key, pass it to the client as follows:
 
 ```julia
 using AlphaVantage
@@ -50,7 +62,7 @@ If you encounter a clear bug, please file a minimal reproducible example on GitH
 * Technical indicators for stock prices.
 * Crypto currency health index from Flipside Crypto.
 * Fundamental data for stocks.
-* Economic Indicators 
+* Economic Indicators
 
 ## Usage
 
@@ -70,4 +82,4 @@ plot(data[!, :timestamp], data[!, :open], label=["Open"])
 savefig("sp500.png")
 ```
 
-![](docs/src/static/spy.png)
+![SPY Time Series](docs/src/static/spy.png)

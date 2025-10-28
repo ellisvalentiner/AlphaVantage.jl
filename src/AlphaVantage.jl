@@ -1,9 +1,7 @@
-VERSION >= v"1.6.0"
-
 module AlphaVantage
 
-using Compat
 using ArgCheck
+using Compat
 using DelimitedFiles
 using HTTP
 using JSON

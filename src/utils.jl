@@ -12,8 +12,8 @@ end
 Internal function to check whether the response contains
     'Note' that indicates the API limit was reached
 """
-function _check_api_limit(resp::HTTP.Messages.Response)
-    content_type = HTTP.Messages.header(resp.headers, "Content-Type")
+function _check_api_limit(resp::HTTP.Response)
+    content_type = HTTP.header(resp, "Content-Type")
     if content_type == "application/json"
         body = _parse_response(resp, "json")
         if haskey(body, "Note")
@@ -25,7 +25,7 @@ end
 """
 Internal function to check response status code
 """
-function _check_status_code(resp::HTTP.Messages.Response)
+function _check_status_code(resp::HTTP.Response)
     if resp.status != 200
         error("Expected status code 200 but received $resp.status")
     end
@@ -34,14 +34,13 @@ end
 """
 Internal function that parses the response
 """
-function _parse_response(data, datatype::Union{String, Nothing})
+function _parse_response(resp::HTTP.Response, datatype::Union{String, Nothing})
     if datatype == "csv"
-        return readdlm(data.body, ',', header=true)
+        return readdlm(IOBuffer(resp.body), ',', header=true)
     elseif datatype == "json"
-        body = copy(data.body)  # TODO: re-write to avoid copying
-        return JSON.Parser.parse(String(body))
+        return JSON.Parser.parse(IOBuffer(resp.body))
     else
-        raw = readdlm(data.body, ',', header=true)
+        raw = readdlm(IOBuffer(resp.body), ',', header=true)
         return AlphaVantageResponse(raw)
     end
 end
