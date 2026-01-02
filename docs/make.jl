@@ -1,4 +1,5 @@
 using Documenter, AlphaVantage
+using Documenter: Deps
 
 makedocs(
     sitename = "AlphaVantage.jl Documentation"
