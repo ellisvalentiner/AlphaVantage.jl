@@ -21,7 +21,7 @@ include("economic_indicators.jl")
 include("commodities.jl")
 
 # avclient
-export key, AlphaVantageClient, AlphaVantageResponse
+export key, AlphaVantageClient, AlphaVantageResponse, PremiumEndpointError
 
 # stock_time_series
 export

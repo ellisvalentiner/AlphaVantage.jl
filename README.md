@@ -55,6 +55,54 @@ AlphaVantage.GLOBAL[]
 
 If you encounter a clear bug, please file a minimal reproducible example on GitHub.
 
+## Premium Endpoints
+
+Some Alpha Vantage API endpoints require premium API access. When calling a premium endpoint without premium access, the library will throw a `PremiumEndpointError` exception with a descriptive message.
+
+The test suite handles premium endpoints gracefully by automatically skipping tests that require premium access when the API key doesn't have the necessary permissions. This allows the test suite to run successfully with a free API key.
+
+If you have a premium API key and want to test premium endpoints, you can set the `TEST_PREMIUM=true` environment variable before running tests. However, the test suite will still gracefully skip premium endpoints if they're not accessible.
+
+For a list of premium endpoints, please refer to the [Alpha Vantage documentation](https://www.alphavantage.co/documentation/).
+
+## Testing
+
+The test suite is split into two modes for optimal performance:
+
+### Unit Tests (Default - Fast)
+
+Unit tests use HTTP mocking and run in under 1 minute. They test response parsing, error handling, and data structures without making real API calls.
+
+```bash
+# Run unit tests (default)
+julia --project test/runtests.jl
+
+# Or explicitly
+UNIT_TESTS=true julia --project test/runtests.jl
+```
+
+### Integration Tests (Real API)
+
+Integration tests make real API calls to validate actual API responses. These take longer (5-10 minutes) and require an API key.
+
+```bash
+# Run integration tests
+INTEGRATION_TESTS=true julia --project test/runtests.jl
+
+# Run both unit and integration tests
+UNIT_TESTS=true INTEGRATION_TESTS=true julia --project test/runtests.jl
+```
+
+### Test Configuration
+
+- `TEST_SLEEP_TIME`: Sleep time between API calls in seconds (default: 2 seconds for integration tests)
+- `MAX_TESTS`: Limit number of tests to run (default: 1)
+- `TEST_PREMIUM`: Set to `true` to test premium endpoints if your API key has access
+- `INTEGRATION_TESTS`: Set to `true` to run integration tests
+- `UNIT_TESTS`: Set to `true` to run unit tests (default: true)
+
+**Note**: Unit tests don't require an API key and run much faster. Use them during development for quick feedback.
+
 ## Features
 
 * Intraday prices for stocks, currencies and cryptocurrencies.

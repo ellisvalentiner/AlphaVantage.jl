@@ -11,7 +11,7 @@ using Test
         ];
         body="""{"Note": "API limit exceeded"}"""
     )
-    @test_throws Exception AlphaVantage._check_api_limit(resp)
+    @test_throws Exception AlphaVantage._check_api_errors(resp)
 end
 
 end

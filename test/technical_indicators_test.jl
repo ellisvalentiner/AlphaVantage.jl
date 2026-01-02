@@ -1,8 +1,9 @@
 module TestTechnicalIndicators
 using AlphaVantage
 using Test
+import Main.TestUtils: skip_if_premium
 
-TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "2"))
 MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 PREMIUM = get(ENV, "TEST_PREMIUM", false)
 
@@ -14,15 +15,19 @@ PREMIUM = get(ENV, "TEST_PREMIUM", false)
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
                     @testset "JSON" begin
-                        data = $ti("MSFT", "weekly", 10, "open", datatype="json")
-                        @test typeof(data) === Dict{String, Any}
-                        @test length(data) === 2
+                        skip_if_premium(() -> begin
+                            data = $ti("MSFT", "weekly", 10, "open", datatype="json")
+                            @test typeof(data) === Dict{String, Any}
+                            @test length(data) === 2
+                        end, skip_msg="$(string($ti)) requires premium access")
                     end
                     sleep(TEST_SLEEP_TIME + 2*rand())
                     @testset "CSV" begin
-                        data = $ti("MSFT", "weekly", 10, "open", datatype="csv")
-                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
-                        @test length(data) === 2
+                        skip_if_premium(() -> begin
+                            data = $ti("MSFT", "weekly", 10, "open", datatype="csv")
+                            @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                            @test length(data) === 2
+                        end, skip_msg="$(string($ti)) requires premium access")
                     end
                 end
             end
@@ -39,15 +44,19 @@ PREMIUM = get(ENV, "TEST_PREMIUM", false)
                 tiname = string($ti)
                 @testset "technical_indicator: $tiname" begin
                     @testset "JSON" begin
-                        data = $ti("MSFT", "weekly", 10, datatype="json")
-                        @test typeof(data) === Dict{String, Any}
-                        @test length(data) === 2
+                        skip_if_premium(() -> begin
+                            data = $ti("MSFT", "weekly", 10, datatype="json")
+                            @test typeof(data) === Dict{String, Any}
+                            @test length(data) === 2
+                        end, skip_msg="$(string($ti)) requires premium access")
                     end
                     sleep(TEST_SLEEP_TIME + 2*rand())
                     @testset "CSV" begin
-                        data = $ti("MSFT", "weekly", 10, datatype="csv")
-                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
-                        @test length(data) === 2
+                        skip_if_premium(() -> begin
+                            data = $ti("MSFT", "weekly", 10, datatype="csv")
+                            @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                            @test length(data) === 2
+                        end, skip_msg="$(string($ti)) requires premium access")
                     end
                 end
             end
@@ -107,13 +116,13 @@ PREMIUM = get(ENV, "TEST_PREMIUM", false)
     end
 
     @testset "Optional Arguments" begin
-
-        data = MACD("MSFT", "5min", "high", fastperiod = 13, slowperiod = 25, datatype="json")
-        @test typeof(data) === Dict{String, Any}
-        @test length(data) === 2
-        @test data["Meta Data"]["5.2: Slow Period"] == 25
-        @test data["Meta Data"]["5.1: Fast Period"] == 13
-
+        skip_if_premium(() -> begin
+            data = MACD("MSFT", "5min", "high", fastperiod = 13, slowperiod = 25, datatype="json")
+            @test typeof(data) === Dict{String, Any}
+            @test length(data) === 2
+            @test data["Meta Data"]["5.2: Slow Period"] == 25
+            @test data["Meta Data"]["5.1: Fast Period"] == 13
+        end, skip_msg="MACD requires premium access")
     end
 
 end

@@ -2,8 +2,9 @@ module TestStockTimeSeries
 using AlphaVantage
 using Test
 using JSON3
+import Main.TestUtils: skip_if_premium
 
-TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "15"))
+TEST_SLEEP_TIME =  parse(Float64, get(ENV, "TEST_SLEEP_TIME", "2"))
 MAX_TESTS = parse(Int64, get(ENV, "MAX_TESTS", "1"))
 PREMIUM = get(ENV, "TEST_PREMIUM", false)
 
@@ -19,26 +20,34 @@ end
             testname = string($f)
             @testset "$testname" begin
                 @testset "AlphaVantageResponse" begin
-                    data = $f("MSFT")
-                    @test isa(data, AlphaVantageResponse)
+                    skip_if_premium(() -> begin
+                        data = $f("MSFT")
+                        @test isa(data, AlphaVantageResponse)
+                    end, skip_msg="$(string($f)) requires premium access")
                 end
                 sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "JSON" begin
-                    data = $f("MSFT", datatype="json")
-                    @test typeof(data) === Dict{String,Any}
-                    @test length(data) === 2
+                    skip_if_premium(() -> begin
+                        data = $f("MSFT", datatype="json")
+                        @test typeof(data) === Dict{String,Any}
+                        @test length(data) === 2
+                    end, skip_msg="$(string($f)) requires premium access")
                 end
                 sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "CSV" begin
-                    data = $f("MSFT", datatype="csv")
-                    @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
-                    @test length(data) === 2
+                    skip_if_premium(() -> begin
+                        data = $f("MSFT", datatype="csv")
+                        @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                        @test length(data) === 2
+                    end, skip_msg="$(string($f)) requires premium access")
                 end
                 sleep(TEST_SLEEP_TIME + 2*rand())
                 @testset "JSON3" begin
-                    data = $f("MSFT", datatype="json", parser = x -> JSON3.read(x.body))
-                    @test typeof(data) === JSON3.Object{Vector{UInt8}, Vector{UInt64}}
-                    @test length(data) === 2
+                    skip_if_premium(() -> begin
+                        data = $f("MSFT", datatype="json", parser = x -> JSON3.read(x.body))
+                        @test typeof(data) === JSON3.Object{Vector{UInt8}, Vector{UInt64}}
+                        @test length(data) === 2
+                    end, skip_msg="$(string($f)) requires premium access")
                 end
             end
         end
@@ -49,9 +58,11 @@ end
     @eval begin
         testname = string($f)
         @testset "$testname" begin
-            data = $f("MSFT")
-            @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
-            @test length(data) === 2
+            skip_if_premium(() -> begin
+                data = $f("MSFT")
+                @test typeof(data) === Tuple{Array{Any, 2}, Array{AbstractString, 2}}
+                @test length(data) === 2
+            end, skip_msg="$(string($f)) requires premium access")
         end
     end
 end
