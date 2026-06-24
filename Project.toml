@@ -1,8 +1,8 @@
 name = "AlphaVantage"
 uuid = "6348297c-a006-11e8-3a05-9bbf8830fd7b"
 license = "MIT"
-authors = ["Ellis Valentiner <ellisvalentiner@gmail.com>", "Dean Markwick <dean.markwick@talk21.com>"]
 version = "0.5.0"
+authors = ["Ellis Valentiner <ellisvalentiner@gmail.com>", "Dean Markwick <dean.markwick@talk21.com>"]
 
 [deps]
 ArgCheck = "dce04be8-c92d-5529-be00-80e4d2c0e197"
@@ -17,7 +17,7 @@ ArgCheck = "2.0"
 Compat = "4"
 DelimitedFiles = "1"
 HTTP = "1"
-JSON = "0.21"
+JSON = "0.21, 1"
 Tables = "1"
 julia = "1.6"
 
